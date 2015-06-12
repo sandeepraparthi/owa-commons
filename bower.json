@@ -1,14 +1,13 @@
 {
   "name": "OWA-Commons",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "homepage": "https://github.com/SandeepRaparthi1/OWA-Commons",
   "authors": [
     "Sandeep Raparthi"
   ],
-  "description": "Commons folder containing re-usable fragments by components",
+  "description": "OWA containing multiple reusable polymer components",
   "keywords": [
-    "polymer",
-    "web-components"
+    "polymer"
   ],
   "license": "MIT",
   "ignore": [
