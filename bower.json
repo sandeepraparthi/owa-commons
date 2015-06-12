@@ -1,9 +1,11 @@
 {
-  "name": "Patient Search Component",
+  "name": "OWA-Commons",
   "version": "0.0.0",
+  "homepage": "https://github.com/SandeepRaparthi1/OWA-Commons",
   "authors": [
-    "SandeepRaparthi1 <kmit.sandeep@gmail.com>"
+    "Sandeep Raparthi"
   ],
+  "description": "Commons folder containing re-usable fragments by components",
   "keywords": [
     "polymer",
     "web-components"
@@ -16,7 +18,7 @@
     "test",
     "tests"
   ],
-  "dependencies": {
-     "polymer": "Polymer/polymer#^1.0.0"     
-    }
+  "dependencies": {   
+    "polymer": "Polymer/polymer#^1.0.0"
+  }
 }
