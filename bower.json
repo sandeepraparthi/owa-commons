@@ -1,0 +1,23 @@
+{
+  "name": "Patient Search Component",
+  "version": "0.0.0",
+  "authors": [
+    "SandeepRaparthi1 <kmit.sandeep@gmail.com>"
+  ],
+  "keywords": [
+    "polymer",
+    "web-components"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+     "polymer": "Polymer/polymer#^1.0.0",
+     "iron-ajax": "polymerelements/iron-ajax"
+  }
+}
