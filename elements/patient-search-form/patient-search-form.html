@@ -1,0 +1,20 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+<link rel="stylesheet" type="text/css" href="/css/patientSearchWidget.css">
+
+<dom-module id="patient-search">
+   <template>
+     <h2>Find Patient Record</h2>
+      <form method="get" id="patient-search-form" onsubmit="return false">
+        <input type="text" id="patient-search" placeholder="Search by ID or Name" autocomplete="off">
+        <i id="patient-search-clear-button" class="small icon-remove-sign"></i>
+      </form>
+  </template>
+</dom-module>
+
+<script>
+  Polymer ({
+     is: "patient-search",                     
+  });
+</script>
+

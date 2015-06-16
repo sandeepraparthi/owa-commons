@@ -1,9 +1,17 @@
 <html>
+<link rel="import" href="/elements/openmrs-header/openmrs-header.html">
 <link rel="import" href="/elements/bread-crumbs/breadcrumbs.html">
+<link rel="import" href="/elements/patient-search-form/patient-search-form.html">
 <head>
-	<title></title>
+	<title>OpenMRS Electronic Medical Record</title>
 </head>
 <body>
+     <openmrs-header></openmrs-header>
      <bread-crumb breadcrumbname="Find Patient Record"></bread-crumb>
+     <div id="body-wrapper">
+        <div id="content" class="container">            
+            <patient-search></patient-search>
+        </div>
+    </div>
 </body>
 </html> 
