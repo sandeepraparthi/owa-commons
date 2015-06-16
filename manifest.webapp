@@ -1,11 +1,9 @@
 {
     "version":"0.1",
     "name":"OWA-Commons",
-	"description": "app with all openmrs reusable components",
-	"icons":{
-		"16":"/img/openmrs-with-title-small.png",
-		"48":"/openmrs-logo.png",
-		"128":"/img/openmrs-with-title-small.png"
+	"description": "Open Web App consisting of openmrs reference application components as web-components",
+	"icons":{		
+		"48":"/openmrs-logo.png",		
 	},
     "developer": {
         "name": "Sandeep Raparthi"        

@@ -1,0 +1,22 @@
+{
+  "name": "Register-A-Patient",
+  "version": "0.0.1",
+  "authors": [
+    "Sandeep Raparthi"
+  ],
+  "main": "index.html",
+  "keywords": [
+    "polymer"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+     "polymer": "Polymer/polymer#^1.0.0"
+ }
+}
