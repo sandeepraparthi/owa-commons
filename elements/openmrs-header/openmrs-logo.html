@@ -1,0 +1,32 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<dom-module id="openmrs-logo" attributes="url">
+    <template>
+        <style>
+            .logo {
+                color: rgb(204, 204, 204);
+                display: block;
+                font-family: OpenSans, Arial, sans-serif;
+                font-size: 16px;
+                height: 44px;
+                line-height: 16px;
+                width: 120px;
+                float: left;
+                margin: 4px;
+            }
+            .logo img {
+                width: 120px;
+                border: 0;
+            }
+        </style>
+        <div class="logo">
+            <a href="{{url}}">
+                <img alt="" src="/img/openmrs-with-title-small.png"/>
+            </a>
+        </div>
+    </template>    
+</dom-module>
+<script>
+    Polymer({
+        is: "openmrs-logo",       
+    });
+</script>

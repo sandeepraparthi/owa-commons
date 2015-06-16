@@ -1,0 +1,23 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
+<dom-module id="openmrs-location">
+    <template>        
+        <iron-ajax auto url="http://demo.openmrs.org/openmrs/ws/rest/v1/location/aff27d58-a15c-49a6-9beb-d30dcfc0c66e"
+        on-response="handleResponse"></iron-ajax>
+        <a href="#">
+                <i class="icon-map-marker small"></i>
+                <span data-bind="text: text"></span>                
+                    <i class="icon-caret-down link"></i>                
+        </a>
+    </template>    
+</dom-module>
+<script>
+    Polymer({
+        is: "openmrs-location",  
+        handleResponse: function (request) {               
+            console.log(request.detail.response.childLocations);     
+        }      
+    });
+</script> 
+
+

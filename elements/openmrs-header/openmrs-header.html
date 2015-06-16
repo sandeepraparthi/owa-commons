@@ -1,0 +1,25 @@
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="openmrs-logo.html">
+<link rel="import" href="openmrs-user.html">
+<link rel="import" href="openmrs-location.html">
+<link rel="import" href="openmrs-logout.html">
+
+<dom-module id="openmrs-header">
+    <template>  
+        <header>       
+            <openmrs-logo></openmrs-logo>
+            <ul class="user-options">
+                <li class="identifier"><openmrs-user></openmrs-user></li>
+                <li class="change-location"><openmrs-location></openmrs-location></li>
+                <li><openmrs-logout></openmrs-logout></li>
+            </ul>
+        </header>        
+    </template>
+</dom-module>
+<script>
+    Polymer({
+        is: "openmrs-header",       
+    });
+</script>   
