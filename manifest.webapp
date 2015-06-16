@@ -1,0 +1,22 @@
+{
+    "version":"0.1",
+    "name":"OWA-Commons",
+	"description": "app with all openmrs reusable components",
+	"icons":{
+		"16":"/img/openmrs-with-title-small.png",
+		"48":"/openmrs-logo.png",
+		"128":"/img/openmrs-with-title-small.png"
+	},
+    "developer": {
+        "name": "Sandeep Raparthi"        
+    },
+	"activities":{
+		"openmrs":{
+			"href":"*"
+		}
+	},
+	"folderName":"OWA-Commons",
+	"launch_path":"/index.html",
+	"installs_allowed_from":["*"],
+	"default_locale":"en"
+}
