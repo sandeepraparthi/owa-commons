@@ -1,0 +1,20 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+<dom-module id="app-Button" >
+   <template>            
+        <div>
+        <a  class="button app big">                
+                   <i class="icon-search"></i>                
+                <span>{{buttontask}}</span>
+            </a>
+        </div>
+   </template>
+</dom-module>
+<script>
+  Polymer ({
+     is: "app-Button",  
+     properties: {
+          buttontask: String          
+          }           
+  });
+</script>
