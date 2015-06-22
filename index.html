@@ -4,11 +4,15 @@
 	<title></title>	
 	<link rel="import" href="elements/openmrs-header/openmrs-header.html">
         <link rel="import" href="elements/app-button/app-button.html">
+        <link rel="import" href="elements/find-patient-record/find-patient-record.html">
         <link rel="import" href="elements/bread-crumbs/breadcrumbs.html">
 </head>
 <body>
         <openmrs-header></openmrs-header>
-        <bread-crumb breadcrumbname="Find Patient Record"></bread-crumb>
-        <app-button buttontask="Find Patient Record"></app-button>
+        <div id="body-wrapper">
+        <div id="content" class="container">         
+        <find-patient-record></find-patient-record>        
+        </div>
+        </div>
 </body>
 </html>

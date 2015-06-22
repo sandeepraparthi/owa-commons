@@ -19,6 +19,7 @@
   ],
   "dependencies": {   
     "polymer": "Polymer/polymer#^1.0.0",
-    "iron-ajax": "PolymerElements/iron-ajax"
+    "iron-ajax": "PolymerElements/iron-ajax",
+    "iron-form": "PolymerElements/iron-form"
   }
 }
