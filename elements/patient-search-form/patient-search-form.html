@@ -1,6 +1,7 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="/bower_components/iron-form/iron-form.html">
+<link rel="import" href="/elements/patient-search-results/patient-search-results.html">
 <link rel="stylesheet" type="text/css" href="/css/main.css">
 <link rel="stylesheet" type="text/css" href="/css/patientSearchWidget.css">
 
@@ -15,48 +16,50 @@
      </iron-ajax>
      <h2>Find Patient Record</h2>
       <form is="iron-form" method="get" id="patient-search-form" on-iron-form-submit="setajax">
-        <input type="text" id="patientsearch" placeholder="Search by ID or Name" autocomplete="off" on-keyup="setajax" >
-        <i id="patient-search-clear-button" class="small icon-remove-sign"></i>        
+        <input type="text" id="patientsearch" placeholder="Search by ID or Name" autocomplete="off" on-keyup="checkcharacters" >
+        <i id="patient-search-clear-button" class="small icon-remove-sign" on-click="clearresults"></i>        
       </form>
-      <div id="patient-search-results" >
-        <table id="patient-search-results-table">
-          <thead>
-            <tr>
-              <th>Identifier</th>
-              <th>Name</th>
-              <th>Gender</th>
-              <th>Age</th>
-              <th>Birthdate</th>
-            </tr>
-          </thead>                             
-        </table>
-      </div>
+      <patient-searchresults></patient-searchresults>
   </template>
 </dom-module>
 
 <script>
   Polymer ({
      is: "patient-search",    
-     setajax: function () {                    
-     this.$.ajax.params = {"q":this.$.patientsearch.value,"v":"default"};     
-     this.$.ajax.generateRequest();
+     clearresults:function()
+     {       
+       document.getElementById('patient-search-results').style.display = 'none';
+     },
+     checkcharacters: function () { 
+      var searchcharacters = this.$.patientsearch.value;
+      if(searchcharacters.length >2)
+      {
+      this.$.ajax.params = {"q":searchcharacters,"v":"default"};     
+      this.$.ajax.generateRequest();
+      }
+     },
+     setajax:function()
+     {
+      this.$.ajax.params = {"q":this.$.patientsearch.value,"v":"default"};     
+      this.$.ajax.generateRequest();      
      },
      handleResponse:function(request){
        var div = document.getElementById('patient-search-results');       
         div.style.display = 'block';          
         var objarray = new Array();
-        objarray = request.detail.response.results;
+        objarray = request.detail.response.results;        
         var table = document.getElementById('patient-search-results-table'); 
         var rowCount = table.rows.length;
         while(--rowCount)
         {
           table.deleteRow(rowCount);
         }
-        if(objarray.length == 0 )
+        if(objarray.length == 0)
         {
             var rowCount = table.rows.length;               
-            var row = table.insertRow(rowCount);            
-            row.insertCell.innerHTML = "No matching records found";
+            var row = table.insertRow(rowCount); 
+            row.colSpan = "5";           
+            row.insertCell(0).innerHTML = "No matching records found";            
         }         
         else
         {                      

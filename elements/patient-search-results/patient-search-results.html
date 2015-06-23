@@ -1,0 +1,26 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+
+<dom-module id="patient-searchresults">
+    <template>               
+        <div id="patient-search-results" >
+        <table id="patient-search-results-table">
+          <thead>
+            <tr>
+              <th>Identifier</th>
+              <th>Name</th>
+              <th>Gender</th>
+              <th>Age</th>
+              <th>Birthdate</th>
+            </tr>
+          </thead>                             
+        </table>
+      </div>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: "patient-searchresults",       
+    });
+</script>
