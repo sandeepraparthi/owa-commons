@@ -14,10 +14,10 @@
     handle-as="json"
     on-response="handleResponse">
      </iron-ajax>
-     <h2>Find Patient Record</h2>
+     <h2><span>{{patientsearchreason}}</span></h2>
       <form is="iron-form" method="get" id="patient-search-form" on-iron-form-submit="setajax">
-        <input type="text" id="patientsearch" placeholder="Search by ID or Name" autocomplete="off" on-keyup="checkcharacters" >
-        <i id="patient-search-clear-button" class="small icon-remove-sign" on-click="clearresults"></i>        
+        <input type="text" id="patientsearch" placeholder="Search by ID or Name" autocomplete="off" on-keyup="checkCharacters" >
+        <i id="patient-search-clear-button" class="small icon-remove-sign" on-click="clearSearch"></i>        
       </form>
       <patient-searchresults></patient-searchresults>
   </template>
@@ -26,11 +26,12 @@
 <script>
   Polymer ({
      is: "patient-search",    
-     clearresults:function()
-     {       
+     clearSearch:function()
+     {              
+       document.getElementById('patientsearch').focus();
        document.getElementById('patient-search-results').style.display = 'none';
      },
-     checkcharacters: function () { 
+     checkCharacters: function () { 
       var searchcharacters = this.$.patientsearch.value;
       if(searchcharacters.length >2)
       {
@@ -67,13 +68,18 @@
           {           
             var rowCount = table.rows.length;               
             var row = table.insertRow(rowCount);            
-            row.insertCell(0).innerHTML = objarray[j].display;                               
+            row.insertCell(0).innerHTML = objarray[j].display.slice(0,6);                               
             row.insertCell(1).innerHTML = objarray[j].person.display;
             row.insertCell(2).innerHTML = objarray[j].person.gender;
             row.insertCell(3).innerHTML = objarray[j].person.age;
-            row.insertCell(4).innerHTML = objarray[j].person.birthdate;            
+            var date = new Date(objarray[j].person.birthdate);            
+            var formattedDate= date.getDate() + "-" +(date.getMonth()+1)+ "-" + date.getFullYear();
+            row.insertCell(4).innerHTML = '&nbsp;&nbsp;'+formattedDate ;            
           }
         }                
-     }    
+     },
+     properties: {
+          patientsearchreason: String
+          }    
   });
 </script>
