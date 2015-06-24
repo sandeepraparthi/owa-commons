@@ -1,37 +1,35 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="/bower_components/iron-form/iron-form.html">
 <link rel="stylesheet" type="text/css" href="/css/main.css">
 
 <dom-module id="registration-form">
-   <template>
-   <div id="content" class="container">
+   <template>   
     <h2>
         Register a patient
-    </h2>    
-
-    <form class="simple-form-ui" id="registration" method="POST">
-       <ul id="formBreadcrumb" class="options">
-         <li class="doing"><span id="demographics_label">Demographics</span>
-            <ul>
-               <li class="question-legend focused"><i class="icon-ok"></i><span>Name</span></li>
-               <li class="question-legend"><i class="icon-ok"></i><span id="genderLabel">Gender</span></li>
-               <li class="question-legend"><i class="icon-ok"></i><span id="birthdateLabel">Birthdate</span></li>
-            </ul>
-         </li>
-         <li class="doing"><span id="contactInfo_label">Contact Info</span>
-            <ul>
-                <li class="question-legend"><i class="icon-ok"></i><span id="null">Address</span></li>
-                <li class="question-legend"><i class="icon-ok"></i><span id="phoneNumberLabel">Phone Number</span></li>
-            </ul>
-         </li>
-         <li>
-         <span id="confirmation_label">Confirm</span>
-         </li>
-       </ul>
-       <section id="demographics" class="non-collapsible focused">
-       <fieldset id="demographics-name" class="focused">
-            <legend>Name</legend>
+    </h2>
+    <iron-ajax 
+    id="ajax"    
+    url="http://demo.openmrs.org/openmrs/ws/rest/v1/patient"  
+    method="POST"  
+    handle-as="json"
+    on-response="handleResponse">
+    </iron-ajax>
+    <form is="iron-form" method="get" class="simple-form-ui" id="registration" on-iron-form-submit="makeajax">
+        <ul id="formBreadcrumb" class="options">
+            <li class="doing"><span id="demographics_label">Demographics</span>
+                <ul>
+                    <li id="nameLabel" class="question-legend focused"><i class="icon-ok"></i><span>Name</span></li>
+                    <li id="genderLabel" class="question-legend"><i class="icon-ok"></i><span>Gender</span></li>
+                    <li id="birthdateLabel" class="question-legend"><i class="icon-ok"></i><span >Birthdate</span></li>
+                </ul>
+            </li>            
+            <li>
+                <span id="confirmation_label">Confirm</span>
+            </li>
+        </ul>
+        <section id="demographics" class="non-collapsible focused">
+            <fieldset id="demographics-name" class="focused">
+                <legend>Name</legend>
                 <div>
                     <h3>What's the patient's name?</h3>
                     <p class="left">
@@ -40,7 +38,7 @@
                         <input type="text" id="fr7057-field" name="givenName" value="" class="required focused ui-autocomplete-input" autocomplete="off">
                         <span role="status" aria-live="polite" class="ui-helper-hidden-accessible">
                         </span>
-                        <span id="fr393" class="field-error" style="display: none"></span>
+                        <span id="fr393" class="field-error" style="display: none">Required</span>
                     </p>
                     <p class="left">
                         <label for="fr2890-field">Middle</label>
@@ -51,9 +49,9 @@
                     <p class="left">
                         <label for="fr905-field">Family Name <span>(required)</span>
                         </label>
-                        <input type="text" id="fr905-field" name="familyName" value="" class="required ui-autocomplete-input" autocomplete="off">
+                        <input type="text" id="fr905-field" name="familyName" value="" class="required ui-autocomplete-input" autocomplete="off" on-keyup="movetogenderfield">
                         <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
-                        <span id="fr6684" class="field-error" style="display: none"></span>
+                        <span id="fr6684" class="field-error" style="display: none">Required</span>
                     </p>
                 </div>
                 <div style="display:inline-block">
@@ -63,467 +61,83 @@
                     </nobr>
                 </div>
                 <input type="hidden" name="preferred" value="true">
-        </fieldset>
-
-                        <fieldset id="demographics-gender">
-                            <legend id="genderLabel">Gender</legend>
-                            <h3>What's the patient's gender?</h3>
-                            
-
-<p id="gender">
-
-    <label for="gender-field">
-         <span>(required)</span>
-    </label>
-
-    <select id="gender-field" name="gender" class="required" size="2" data-bind=", value: gender">
-
-        
-        
-            <option value="M">Male</option>
-        
-            <option value="F">Female</option>
-        
-    </select>
-
-    <span id="fr5725" class="field-error" style="display: none"></span>
-</p>
-
-
-<script type="text/javascript">
-    var viewModel = viewModel || {};
-    viewModel.validations = viewModel.validations || [];
-
-    viewModel.gender = ko.observable();
-    
-    viewModel.validations.push(function() {
-        return jq('#gender-field').is(':disabled') || (viewModel.gender() ? true : false);
-    });
-    
-</script>
-
-                            <!-- we "hide" the unknown flag here since gender is the only field not hidden for an unknown patient -->
-                            <input id="demographics-unknown" type="hidden" name="unknown" value="false">
-                        </fieldset>
-
-                        <fieldset id="demographics-birthdate" class="multiple-input-date date-required no-future-date">
-                            <legend id="birthdateLabel">Birthdate</legend>
-                            <h3>What's the patient's birth date?</h3>
-                            
-
-<script type="text/javascript">
-    var birthdateDay = '';
-    var birthdateMonth = '';
-    var birthdateYear = '';
-
-    jQuery(document).ready(function(){
-        
-
-        _.each(jQuery('.date-component'), function(dateElement){
-            jQuery(dateElement).blur(function(){
-                var elementValue = '';
-                if(this.value && jQuery.trim(this.value).length > 0)
-                    elementValue = jQuery.trim(this.value);
-
-                if(this.id == 'birthdateDay-field'){
-                    if(elementValue.length > 0)
-                        birthdateDay = elementValue;
-                    else
-                        birthdateDay = '';
-                }else if(this.id == 'birthdateMonth-field'){
-                    if(elementValue.length > 0)
-                        birthdateMonth = elementValue;
-                    else
-                        birthdateMonth = '';
-                }else if (this.id == 'birthdateYear-field'){
-                    if(elementValue.length > 0)
-                        birthdateYear = elementValue;
-                    else
-                        birthdateYear = '';
-                }
-
-                if (birthdateYear != '' && birthdateMonth != '' && birthdateDay != '') {
-                    jQuery('#birthdate-value').val(birthdateYear+"-"+birthdateMonth+"-"+birthdateDay);
-                } else {
-                    jQuery('#birthdate-value').val('');
-                }
-            });
-        });
-    });
-
-</script>
-
-<p id="fr7109">
-    <span id="fr8216" class="field-error" style="display: none"></span>
-
-    
-
-</p><p class="left">
-    <label for="birthdateDay-field">
-        Day 
-    </label>
-    <input type="text" id="birthdateDay-field" name="birthdateDay" value="" class="day number numeric-range date-component" size="5" maxlength="2" min="1" max="31">
-    
-    <span id="fr3063" class="field-error" style="display: none">
-    
-</span>
-    
-    
-</p>
-    
-
-<p id="birthdateMonth" class="left">
-
-    <label for="birthdateMonth-field">
-        Month 
-    </label>
-
-    <select id="birthdateMonth-field" name="birthdateMonth" class="month date-component">
-
-        
-            <option value="">Select</option>
-        
-        
-            <option value="1">January</option>
-        
-            <option value="2">February</option>
-        
-            <option value="3">March</option>
-        
-            <option value="4">April</option>
-        
-            <option value="5">May</option>
-        
-            <option value="6">June</option>
-        
-            <option value="7">July</option>
-        
-            <option value="8">August</option>
-        
-            <option value="9">September</option>
-        
-            <option value="10">October</option>
-        
-            <option value="11">November</option>
-        
-            <option value="12">December</option>
-        
-    </select>
-
-    <span id="fr7796" class="field-error" style="display: none">
-    
-</span>
-</p>
-
-
-    
-
-<p class="left">
-    <label for="birthdateYear-field">
-        Year 
-    </label>
-    <input type="text" id="birthdateYear-field" name="birthdateYear" value="" class="year number numeric-range date-component" size="5" maxlength="4" min="1895" max="2015">
-    
-    <span id="fr7148" class="field-error" style="display: none">
-    
-</span>
-    
-    
-</p>
-            
-    
-    
-    <div class="clear">
-<p></p>
-
-<script type="text/javascript">
-    jQuery(function() {
-        var yearsField = jQuery('#birthdateYears-field');
-        var monthsField = jQuery('#birthdateMonths-field');
-        var estimatedField = jQuery('#birthdateEstimated-field');
-
-        var skipField = function() {
-            e = jQuery.Event('keydown');
-            e.which = 13; // enter
-            yearsField.trigger(e);
-        };
-
-        var isExactDate = function() {
-            var isEstimatedChecked = jQuery('#birthdateEstimated-field').is(':checked');
-            return (jQuery('#birthdate-value').val() != '' && !isEstimatedChecked);
-        }
-
-        var toggleEstimatedDate = function() {
-            if(isExactDate()) {
-                yearsField.val('');
-                yearsField.prop('disabled', true);
-                monthsField.val('');
-                monthsField.prop('disabled', true);
-            } else {
-                yearsField.prop('disabled', false);
-                monthsField.prop('disabled', false);
-            }
-        };
-
-        var clearExactDateFields = function() {
-            birthdateDay = '';
-            birthdateMonth = '';
-            birthdateYear = '';
-            jQuery('#birthdateDay-field').val('');
-            jQuery('#birthdateMonth-field').val('');
-            jQuery('#birthdateYear-field').val('');
-
-            if (birthdateYear != '' && birthdateMonth != '' && birthdateDay != '') {
-                jQuery('#birthdate-value').val(birthdateYear+"-"+birthdateMonth+"-"+birthdateDay);
-            } else {
-                jQuery('#birthdate-value').val('');
-            }
-        }
-
-        jQuery(estimatedField).change(function() {
-            toggleEstimatedDate();
-        });
-
-        jQuery(yearsField).blur(function() {
-            var elementValue = '';
-            if(this.value && jQuery.trim(this.value).length > 0)
-                elementValue = jQuery.trim(this.value);
-
-            if(elementValue.length > 0) {
-                birthdateYears = elementValue;
-                clearExactDateFields();
-            }else {
-                birthdateYears = '';
-            }
-
-        });
-
-        jQuery(monthsField).blur(function() {
-            var elementValue = '';
-            if(this.value && jQuery.trim(this.value).length > 0)
-                elementValue = jQuery.trim(this.value);
-
-            if(elementValue.length > 0) {
-                birthdateMonths = elementValue;
-                clearExactDateFields();
-            }else {
-                birthdateMonths = '';
-            }
-
-        });
-
-        jQuery(yearsField).focus(toggleEstimatedDate);
-        jQuery(monthsField).focus(toggleEstimatedDate);
-    });
-</script>
-<p>&nbsp;</p>
-<h3>Or</h3>
-<p>
-    
-
-</p><p class="left">
-    <label for="birthdateYears-field">
-        Estimated Years 
-    </label>
-    <input type="text" id="birthdateYears-field" name="birthdateYears" value="" class="years number numeric-range date-component" maxlength="3" min="0" max="120">
-    
-    <span id="fr4074" class="field-error" style="display: none">
-    
-</span>
-    <span class="append-to-value hidden"> year(s)</span>
-    
-</p>
-
-    
-
-<p class="left">
-    <label for="birthdateMonths-field">
-        Estimated Months 
-    </label>
-    <input type="text" id="birthdateMonths-field" name="birthdateMonths" value="" class="months number numeric-range date-component" maxlength="2" min="0" max="11">
-    
-    <span id="fr1627" class="field-error" style="display: none">
-    
-</span>
-    <span class="append-to-value hidden"> month(s)</span>
-    
-</p>
-<p></p>
-
-
-<input id="birthdate-value" type="hidden" name="birthdate">
-
-                        </div></fieldset>
-                    
-
-                    
-            </section>
-        
-            <section id="contactInfo" class="non-collapsible">
-                
-
-                    <!-- hardcoded name, gender, and birthdate are added for the demographics section -->
-                    
-
-                    
-                        <fieldset class="requireOne">
-                            <legend id="null">Address</legend>
-                            
-                                <span id="fr178" class="field-error" style="display: none">
-    
-</span>
-                            
-                            
-                                
-
-
-        
-            
-        
-            
-                 <p class="left">
-                    <label name="address1">
-                        Address
+            </fieldset>
+            <fieldset id="demographics-gender">
+                <legend id="genderLabel">Gender</legend>
+                <h3>What's the patient's gender?</h3>
+                <p id="gender">
+                    <label for="gender-field">
+                        <span>(required)</span>
                     </label>
-                    
-                        <input type="text" id="address1" name="address1" value="" size="40" class="">
-                        <span id="fr6575" class="field-error" style="display: none">
-    
-</span>
-                    
+                    <select id="gender-field" name="gender" class="required" size="2" data-bind=",value: gender">
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                    </select>
+                    <span id="fr4195" class="field-error" style="display: none"></span>
                 </p>
-                 <p class="clear"></p>   
-            
-        
-
-        
-            
-        
-            
-                 <p class="left">
-                    <label name="address2">
-                        Address 2
-                    </label>
-                    
-                        <input type="text" id="address2" name="address2" value="" size="40" class="">
-                        <span id="fr5092" class="field-error" style="display: none">
-    
-</span>
-                    
+                <input id="demographics-unknown" type="hidden" name="unknown" value="false">
+            </fieldset>
+            <fieldset id="demographics-birthdate" class="multiple-input-date date-required no-future-date">
+                <legend id="birthdateLabel">Birthdate</legend>
+                <h3>What's the patient's birth date?</h3>
+                <p id="fr6003">
+                    <span id="fr433" class="field-error" style="display: none"></span>
                 </p>
-                 <p class="clear"></p>   
-            
-        
-
-        
-            
-        
-            
-                 <p class="left">
-                    <label name="cityVillage">
-                        City/Village
-                    </label>
-                    
-                        <input type="text" id="cityVillage" name="cityVillage" value="" size="10" class="">
-                        <span id="fr8841" class="field-error" style="display: none">
-    
-</span>
-                    
+                <p class="left">
+                    <label for="birthdateDay-field">Day</label>
+                    <input type="text" id="birthdateDay-field" name="birthdateDay" value="" class="day number numeric-range date-component" size="5" maxlength="2" min="1" max="31">
+                    <span id="fr4628" class="field-error" style="display: none"></span>
+                </p>             
+                <p id="birthdateMonth" class="left">
+                    <label for="birthdateMonth-field">Month</label>  
+                    <select id="birthdateMonth-field" name="birthdateMonth" class="month date-component">     
+                        <option value="">Select</option>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                    <span id="fr6483" class="field-error" style="display: none"></span>
                 </p>
-                  
-            
-        
-            
-        
-            
-                 <p class="left">
-                    <label name="stateProvince">
-                        State/Province
-                    </label>
-                    
-                        <input type="text" id="stateProvince" name="stateProvince" value="" size="10" class="">
-                        <span id="fr8098" class="field-error" style="display: none">
-    
-</span>
-                    
+                <p class="left">
+                    <label for="birthdateYear-field">Year</label>
+                    <input type="text" id="birthdateYear-field" name="birthdateYear" value="" class="year number numeric-range date-component" size="5" maxlength="4" min="1895" max="2015">
+                    <span id="fr5519" class="field-error" style="display: none"></span>
                 </p>
-                  
-            
-        
-            
-        
-            
-                 <p class="left">
-                    <label name="country">
-                        Country
-                    </label>
-                    
-                        <input type="text" id="country" name="country" value="" size="10" class="">
-                        <span id="fr7617" class="field-error" style="display: none">
-    
-</span>
-                    
+                <div class="clear">
+                <p></p>
+                <p>&nbsp;</p>
+                <h3>Or</h3>
+                <p>
+                </p><p class="left">
+                <label for="birthdateYears-field">Estimated Years</label>
+                <input type="text" id="birthdateYears-field" name="birthdateYears" value="" class="years number numeric-range date-component" maxlength="3" min="0" max="120">
+                <span id="fr8972" class="field-error" style="display: none"></span>
+                <span class="append-to-value hidden"> year(s)</span>
                 </p>
-                  
-            
-        
-            
-        
-            
-                 <p class="left">
-                    <label name="postalCode">
-                        Postal Code
-                    </label>
-                    
-                        <input type="text" id="postalCode" name="postalCode" value="" size="10" class="">
-                        <span id="fr217" class="field-error" style="display: none">
-    
-</span>
-                    
+                <p class="left">
+                <label for="birthdateMonths-field">Estimated Months</label>
+                <input type="text" id="birthdateMonths-field" name="birthdateMonths" value="" class="months number numeric-range date-component" maxlength="2" min="0" max="11">
+                <span id="fr4751" class="field-error" style="display: none"></span>
+                <span class="append-to-value hidden"> month(s)</span>
                 </p>
-                 <p class="clear"></p>   
-            
-        
-
-
-                            
-                        </fieldset>
-                    
-                        <fieldset>
-                            <legend id="phoneNumberLabel">Phone Number</legend>
-                            
-                            
-                                
-
-<p class="left">
-    <label for="fr847-field">
-        What's the patient phone number? 
-    </label>
-    <input type="text" id="fr847-field" name="phoneNumber" value="" class="phone">
-    
-    <span id="fr4851" class="field-error" style="display: none">
-    
-</span>
-    
-    
-</p>
-                            
-                        </fieldset>
-                    
-            </section>
-        
-
-        
-
+                <p></p>
+                <input id="birthdate-value" type="hidden" name="birthdate">
+                </div>
+            </fieldset>
+        </section>
         <div id="confirmation">
-            
             <div class="before-dataCanvas"></div>
             <div id="dataCanvas"></div>
             <div class="after-data-canvas"></div>
-            <div id="exact-matches" style="display: none; margin-bottom: 20px">
-                <span class="field-error">There seems to be a patient in the database that exactly matches this one. Please review before confirming:</span>
-                <ul id="exactPatientsSelect" class="select"></ul>
-            </div>
             <div id="confirmationQuestion">
                 Confirm submission?
                 <p style="display: inline">
@@ -535,12 +149,23 @@
             </div>
         </div>
     </form>
-</div>
   </template>
 </dom-module>
 
 <script>
   Polymer ({
      is: "registration-form",          
+     makeajax:function()
+     {        
+      this.$.ajax.params = {};     
+      this.$.ajax.generateRequest();
+     },     
+     movetogenderfield:function()
+     {        
+        document.getElementById('demographics-name').setAttribute("class", "");
+        document.getElementById('demographics-gender').setAttribute("class", "focused");        
+        document.getElementById('nameLabel').setAttribute("class", "question-legend done");
+        document.getElementById('genderLabel').setAttribute("class", "question-legend focused");                  
+     }
   });
 </script>

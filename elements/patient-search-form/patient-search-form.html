@@ -7,13 +7,13 @@
 
 <dom-module id="patient-search">
    <template>
-     <iron-ajax 
-     id="ajax"    
+    <iron-ajax 
+    id="ajax"    
     url="http://demo.openmrs.org/openmrs/ws/rest/v1/patient"  
     method="GET"  
     handle-as="json"
     on-response="handleResponse">
-     </iron-ajax>
+    </iron-ajax>
      <h2><span>{{patientsearchreason}}</span></h2>
       <form is="iron-form" method="get" id="patient-search-form" on-iron-form-submit="setajax">
         <input type="text" id="patientsearch" placeholder="Search by ID or Name" autocomplete="off" on-keyup="checkCharacters" >
