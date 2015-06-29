@@ -4,6 +4,7 @@
 <link rel="import" href="/elements/patient-search-results/patient-search-results.html">
 <link rel="stylesheet" type="text/css" href="/css/main.css">
 <link rel="stylesheet" type="text/css" href="/css/patientSearchWidget.css">
+<link rel="stylesheet" type="text/css" href="/css/dataTables_jui.css">
 
 <dom-module id="patient-search">
    <template>
@@ -14,7 +15,7 @@
     handle-as="json"
     on-response="handleResponse">
     </iron-ajax>
-     <h2><span>{{patientsearchreason}}</span></h2>
+     <h2>{{patientsearchreason}}</h2>
       <form is="iron-form" method="get" id="patient-search-form" on-iron-form-submit="setajax">
         <input type="text" id="patientsearch" placeholder="Search by ID or Name" autocomplete="off" on-keyup="checkCharacters" >
         <i id="patient-search-clear-button" class="small icon-remove-sign" on-click="clearSearch"></i>        
@@ -58,9 +59,11 @@
         if(objarray.length == 0)
         {
             var rowCount = table.rows.length;               
-            var row = table.insertRow(rowCount); 
-            row.colSpan = "5";           
-            row.insertCell(0).innerHTML = "No matching records found";            
+            var row = table.insertRow(rowCount);
+            var r=row.insertCell(0);
+            row.cells[0].colSpan = "5";               
+            r.setAttribute("class", "dataTables_empty");         
+            r.innerHTML = "No matching records found";             
         }         
         else
         {                      

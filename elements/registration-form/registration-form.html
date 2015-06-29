@@ -8,13 +8,36 @@
         Register a patient
     </h2>
     <iron-ajax 
-    id="ajax"    
-    url="http://demo.openmrs.org/openmrs/ws/rest/v1/patient"  
-    method="POST"  
+    id="ajax1"   
+    method="POST" 
+    url="http://demo.openmrs.org/openmrs/ws/rest/v1/person"             
+    headers='{"Content-Type": "application/json"}'        
     handle-as="json"
-    on-response="handleResponse">
+    on-response="handleResponse1">
     </iron-ajax>
-    <form is="iron-form" method="get" class="simple-form-ui" id="registration" on-iron-form-submit="makeajax">
+    <iron-ajax 
+    id="ajax2"    
+    url="http://demo.openmrs.org/openmrs/ws/rest/v1/patientidentifiertype"  
+    method="GET"  
+    handle-as="json"
+    on-response="handleResponse2">
+    </iron-ajax>
+    <iron-ajax 
+    id="ajax3"    
+    url="http://demo.openmrs.org/openmrs/ws/rest/v1/location"  
+    method="GET"  
+    handle-as="json"
+    on-response="handleResponse3">
+    </iron-ajax>
+    <iron-ajax 
+    id="ajax4"   
+    method="POST" 
+    url="http://demo.openmrs.org/openmrs/ws/rest/v1/patient"             
+    headers='{"Content-Type": "application/json"}'        
+    handle-as="json"
+    on-response="handleResponse4">
+    </iron-ajax>    
+    <form  is="iron-form" class="simple-form-ui" id="registration" >
         <ul id="formBreadcrumb" class="options">
             <li class="doing"><span id="demographics_label">Demographics</span>
                 <ul>
@@ -35,21 +58,21 @@
                     <p class="left">
                         <label for="fr7057-field">Given <span>(required)</span>
                         </label>
-                        <input type="text" id="fr7057-field" name="givenName" value="" class="required focused ui-autocomplete-input" autocomplete="off">
+                        <input type="text" id="fr7057field" name="givenName" value="" class="required focused ui-autocomplete-input" autocomplete="off">
                         <span role="status" aria-live="polite" class="ui-helper-hidden-accessible">
                         </span>
                         <span id="fr393" class="field-error" style="display: none">Required</span>
                     </p>
                     <p class="left">
-                        <label for="fr2890-field">Middle</label>
-                        <input type="text" id="fr2890-field" name="middleName" value="" class="ui-autocomplete-input" autocomplete="off">
+                        <label for="fr2890field">Middle</label>
+                        <input type="text" id="fr2890field" name="middleName" value="" class="ui-autocomplete-input" autocomplete="off">
                         <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
                         <span id="fr5051" class="field-error" style="display: none"></span>
                     </p>
                     <p class="left">
-                        <label for="fr905-field">Family Name <span>(required)</span>
+                        <label for="fr905field">Family Name <span>(required)</span>
                         </label>
-                        <input type="text" id="fr905-field" name="familyName" value="" class="required ui-autocomplete-input" autocomplete="off" on-keyup="movetogenderfield">
+                        <input type="text" id="fr905field" name="familyName" value="" class="required ui-autocomplete-input" autocomplete="off" on-keydown="movetogenderfield">
                         <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
                         <span id="fr6684" class="field-error" style="display: none">Required</span>
                     </p>
@@ -66,10 +89,10 @@
                 <legend id="genderLabel">Gender</legend>
                 <h3>What's the patient's gender?</h3>
                 <p id="gender">
-                    <label for="gender-field">
+                    <label for="genderfield">
                         <span>(required)</span>
                     </label>
-                    <select id="gender-field" name="gender" class="required" size="2" data-bind=",value: gender">
+                    <select id="genderfield" name="gender" class="required" on-keydown="movetobirthdatefield"size="2" data-bind=",value: gender">
                         <option value="M">Male</option>
                         <option value="F">Female</option>
                     </select>
@@ -109,7 +132,7 @@
                 </p>
                 <p class="left">
                     <label for="birthdateYear-field">Year</label>
-                    <input type="text" id="birthdateYear-field" name="birthdateYear" value="" class="year number numeric-range date-component" size="5" maxlength="4" min="1895" max="2015">
+                    <input type="text" id="birthdateYearfield" name="birthdateYear" value="" class="year number numeric-range date-component" on-keydown="movetoconfirmfield" size="5" maxlength="4" min="1895" max="2015">
                     <span id="fr5519" class="field-error" style="display: none"></span>
                 </p>
                 <div class="clear">
@@ -136,12 +159,19 @@
         </section>
         <div id="confirmation">
             <div class="before-dataCanvas"></div>
-            <div id="dataCanvas"></div>
+            <div id="dataCanvas">
+            	<ul>
+                    <li><span id="name" class="label">Name:</span><strong><span id="patientname">{{name}}</span></strong></li>
+                    <li><span  class="label">Gender:</span><strong><span id="gender">{{gender}}</span></strong></li>
+                    <li><span id="birthdate" class="label">Birthdate:</span><strong><span id="birthdate">{{day}}</span>
+                    <span>{{month}}</span><span>{{year}}</span></strong></li>
+                </ul>   	
+            </div>
             <div class="after-data-canvas"></div>
-            <div id="confirmationQuestion">
+            <div id="confirmationQuestion" class="focused">
                 Confirm submission?
                 <p style="display: inline">
-                    <input id="submit" type="submit" class="submitButton confirm right" value="Confirm">
+                    <input id="submit" type="button" class="submitButton confirm right focused" value="Confirm" on-click="makeajax">
                 </p>
                 <p style="display: inline">
                     <input id="cancelSubmission" class="cancel" type="button" value="Cancel">
@@ -153,19 +183,68 @@
 </dom-module>
 
 <script>
+  var personuuid;
+  var patientidentifieruuid;
   Polymer ({
-     is: "registration-form",          
+     is: "registration-form",             
      makeajax:function()
+        {                      
+           this.$.ajax1.body = '{"gender":"'+this.$.genderfield.value+'", "names": [{"givenName":"'+this.$.fr7057field.value+'", "familyName":"'+this.$.fr905field.value+'"}]}';             
+           this.$.ajax1.generateRequest();                 
+        },             
+     handleResponse1:function(request)
      {        
-      this.$.ajax.params = {};     
-      this.$.ajax.generateRequest();
-     },     
-     movetogenderfield:function()
+        this.$.ajax2.generateRequest();
+        this.$.ajax3.generateRequest();
+        personuuid = request.detail.response.uuid;
+     },
+     handleResponse2:function(request)
+     {                
+        patientidentifieruuid = request.detail.response.results[0].uuid;
+     },
+     handleResponse3:function(request)
      {        
+        var locuuid = request.detail.response.results[0].uuid;        
+        this.$.ajax4.body = '{"person": "'+personuuid+'", "identifiers": [{"identifier":"1234", "identifierType":"'+patientidentifieruuid+'", "location":"'+locuuid+'", "preferred":true}]}';             
+           this.$.ajax4.generateRequest();
+     },
+     handleResponse4:function(request)
+     {
+        console.log(request.detail.response);
+        console.log('patient has been registred');
+     },
+     movetogenderfield:function(event)
+     {        
+        if(event.keyCode == 9)
+        {            
         document.getElementById('demographics-name').setAttribute("class", "");
         document.getElementById('demographics-gender').setAttribute("class", "focused");        
         document.getElementById('nameLabel').setAttribute("class", "question-legend done");
-        document.getElementById('genderLabel').setAttribute("class", "question-legend focused");                  
+        document.getElementById('genderLabel').setAttribute("class", "question-legend focused");     
+        }             
+     },
+     movetobirthdatefield:function()
+     {
+        if(event.keyCode == 9)
+        {  
+     	document.getElementById('demographics-gender').setAttribute("class", "");
+        document.getElementById('demographics-birthdate').setAttribute("class", "focused");        
+        document.getElementById('genderLabel').setAttribute("class", "question-legend done");
+        document.getElementById('birthdateLabel').setAttribute("class", "question-legend focused");
+        }
+     },
+     movetoconfirmfield:function()
+     {
+        if(event.keyCode == 9)
+        {
+     	document.getElementById('demographics-birthdate').setAttribute("class", "");
+        document.getElementById('confirmation').setAttribute("class", "focused");        
+        document.getElementById('birthdateLabel').setAttribute("class", "question-legend done");
+        document.getElementById('confirmation_label').setAttribute("class", "question-legend focused");
+        this.$.gender.textContent=this.$.genderfield.value;
+        this.$.patientname.textContent=this.$.fr7057field.value+this.$.fr905field.value;
+        this.$.birthdate.textContent=this.$.birthdateYearfield.value;
+        }
      }
   });
 </script>

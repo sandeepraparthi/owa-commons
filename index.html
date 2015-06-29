@@ -2,21 +2,25 @@
 <html>
    <head>
       <title>Home</title>	
-      <link rel="import" href="elements/openmrs-header/openmrs-header.html">
-      <link rel="import" href="elements/app-button/app-button.html">
+      <link rel="import" href="elements/openmrs-header/openmrs-header.html">      
       <link rel="import" href="elements/find-patient-record-button/find-patient-record-button.html">
       <link rel="import" href="elements/capture-vitals-button/capture-vitals-button.html">
-      <link rel="import" href="elements/register-a-patient-button/register-a-patient-button.html">
-      <link rel="import" href="elements/bread-crumbs/breadcrumbs.html">
+      <link rel="import" href="elements/register-a-patient-button/register-a-patient-button.html">      
+      <link rel="stylesheet" type="text/css" href="/css/main.css">
    </head>
    <body>
-      <openmrs-header></openmrs-header>
-      <div id="body-wrapper">
-        <div id="content" class="container">         
-             <find-patient-record-button></find-patient-record-button>   
-             <capture-vitals-button></capture-vitals-button>
-             <register-a-patient-button></register-a-patient-button>
+        <openmrs-header></openmrs-header>
+        <div id="body-wrapper">
+            <div id="content" class="container"> 
+                <div id="home-container">
+                    <div id="apps">
+                        <find-patient-record-button></find-patient-record-button>                        
+                        <register-a-patient-button></register-a-patient-button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-</body>
+    </body>
 </html>
+
+
