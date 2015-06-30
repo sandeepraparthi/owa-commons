@@ -3,40 +3,39 @@
 <link rel="stylesheet" type="text/css" href="/css/main.css">
 
 <dom-module id="registration-form">
-   <template>   
-    <h2>
-        Register a patient
-    </h2>
-    <iron-ajax 
-    id="ajax1"   
-    method="POST" 
-    url="http://demo.openmrs.org/openmrs/ws/rest/v1/person"             
-    headers='{"Content-Type": "application/json"}'        
-    handle-as="json"
-    on-response="handleResponse1">
-    </iron-ajax>
-    <iron-ajax 
-    id="ajax2"    
-    url="http://demo.openmrs.org/openmrs/ws/rest/v1/patientidentifiertype"  
-    method="GET"  
-    handle-as="json"
-    on-response="handleResponse2">
-    </iron-ajax>
-    <iron-ajax 
-    id="ajax3"    
-    url="http://demo.openmrs.org/openmrs/ws/rest/v1/location"  
-    method="GET"  
-    handle-as="json"
-    on-response="handleResponse3">
-    </iron-ajax>
-    <iron-ajax 
-    id="ajax4"   
-    method="POST" 
-    url="http://demo.openmrs.org/openmrs/ws/rest/v1/patient"             
-    headers='{"Content-Type": "application/json"}'        
-    handle-as="json"
-    on-response="handleResponse4">
-    </iron-ajax>    
+    <template>  
+        <h2> Register a patient </h2>
+        <iron-ajax
+            id="ajax1"
+            method="POST" 
+            url="http://localhost:8080/openmrs/ws/rest/v1/person"             
+            headers='{"Content-Type": "application/json"}'        
+            handle-as="json"
+            on-response="handleResponse1"> 
+        </iron-ajax>
+        <iron-ajax 
+            id="ajax2"    
+            url="http://localhost:8080/openmrs/ws/rest/v1/patientidentifiertype"  
+            method="GET"  
+            handle-as="json"
+            on-response="handleResponse2">
+        </iron-ajax>
+        <iron-ajax 
+            id="ajax3"    
+            url="http://localhost:8080/openmrs/ws/rest/v1/location"  
+            method="GET"  
+            handle-as="json"
+            on-response="handleResponse3">
+        </iron-ajax>
+        <iron-ajax 
+        id="ajax4"   
+        method="POST" 
+        url="http://localhost:8080/openmrs/ws/rest/v1/patient"             
+        headers='{"Content-Type": "application/json"}'        
+        handle-as="json"
+        on-response="handleResponse4"
+        on-error="handleError">
+        </iron-ajax>    
     <form  is="iron-form" class="simple-form-ui" id="registration" >
         <ul id="formBreadcrumb" class="options">
             <li class="doing"><span id="demographics_label">Demographics</span>
@@ -179,7 +178,7 @@
             </div>
         </div>
     </form>
-  </template>
+    </template>
 </dom-module>
 
 <script>
@@ -204,14 +203,21 @@
      },
      handleResponse3:function(request)
      {        
-        var locuuid = request.detail.response.results[0].uuid;        
-        this.$.ajax4.body = '{"person": "'+personuuid+'", "identifiers": [{"identifier":"1234", "identifierType":"'+patientidentifieruuid+'", "location":"'+locuuid+'", "preferred":true}]}';             
-           this.$.ajax4.generateRequest();
+        var locuuid = request.detail.response.results[0].uuid;    
+        console.log(locuuid);
+        console.log(personuuid);  
+        console.log(patientidentifieruuid);  
+        this.$.ajax4.body = '{"person": "'+personuuid+'", "identifiers": [{"identifier":"1234-4", "identifierType":"'+patientidentifieruuid+'", "location":"'+locuuid+'", "preferred":true}]}';    
+        this.$.ajax4.generateRequest();
      },
      handleResponse4:function(request)
      {
         console.log(request.detail.response);
         console.log('patient has been registred');
+     },
+     handleError:function(request)
+     {
+     	console.log(request.detail.error);
      },
      movetogenderfield:function(event)
      {        
