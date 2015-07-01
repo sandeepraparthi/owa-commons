@@ -2,7 +2,7 @@
 <link rel="import" href="/bower_components/iron-form/iron-form.html">
 <link rel="stylesheet" type="text/css" href="/css/main.css">
 
-<dom-module id="registration-form">
+<dom-module id="patient-registration-form">
     <template>  
         <h2> Register a patient </h2>
         <iron-ajax
@@ -57,7 +57,7 @@
                     <p class="left">
                         <label for="fr7057-field">Given <span>(required)</span>
                         </label>
-                        <input type="text" id="fr7057field" name="givenName" value="" class="required focused ui-autocomplete-input" autocomplete="off">
+                        <input type="text" id="fr7057field" name="givenName" value="" class="required focused ui-autocomplete-input" autocomplete="off" on-keydown="checkField">
                         <span role="status" aria-live="polite" class="ui-helper-hidden-accessible">
                         </span>
                         <span id="fr393" class="field-error" style="display: none">Required</span>
@@ -185,7 +185,22 @@
   var personuuid;
   var patientidentifieruuid;
   Polymer ({
-     is: "registration-form",             
+     is: "patient-registration-form", 
+     checkField:function(event)
+     { 
+        if(event.keyCode == 9 || event.keyCode == 13 )
+        {
+            if(this.$.fr7057field.value == "" )
+            {
+                document.getElementById('fr393').style.display= 'block';
+                document.getElementById('fr7057field').setAttribute("class", "required ui-autocomplete-input focused error");
+            }
+            else 
+            {
+                document.getElementById('fr2890field').setAttribute("class", "ui-autocomplete-input focused");
+            }
+        }
+     },            
      makeajax:function()
         {                      
            this.$.ajax1.body = '{"gender":"'+this.$.genderfield.value+'", "names": [{"givenName":"'+this.$.fr7057field.value+'", "familyName":"'+this.$.fr905field.value+'"}]}';             
@@ -221,7 +236,7 @@
      },
      movetogenderfield:function(event)
      {        
-        if(event.keyCode == 9)
+        if(event.keyCode == 9 || event.keyCode ==13 )
         {            
         document.getElementById('demographics-name').setAttribute("class", "");
         document.getElementById('demographics-gender').setAttribute("class", "focused");        
