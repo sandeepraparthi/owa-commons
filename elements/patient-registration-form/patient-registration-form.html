@@ -106,13 +106,13 @@
                     <span id="fr433" class="field-error" style="display: none"></span>
                 </p>
                 <p class="left">
-                    <label for="birthdateDay-field">Day</label>
-                    <input type="text" id="birthdateDay-field" name="birthdateDay" value="" class="day number numeric-range date-component" size="5" maxlength="2" min="1" max="31">
+                    <label for="birthdateDayfield">Day</label>
+                    <input type="text" id="birthdateDayfield" name="birthdateDay" value="" class="day number numeric-range date-component" size="5" maxlength="2" min="1" max="31">
                     <span id="fr4628" class="field-error" style="display: none"></span>
                 </p>             
                 <p id="birthdateMonth" class="left">
-                    <label for="birthdateMonth-field">Month</label>  
-                    <select id="birthdateMonth-field" name="birthdateMonth" class="month date-component">     
+                    <label for="birthdateMonthfield">Month</label>  
+                    <select id="birthdateMonthfield" name="birthdateMonth" class="month date-component">     
                         <option value="">Select</option>
                         <option value="1">January</option>
                         <option value="2">February</option>
@@ -130,7 +130,7 @@
                     <span id="fr6483" class="field-error" style="display: none"></span>
                 </p>
                 <p class="left">
-                    <label for="birthdateYear-field">Year</label>
+                    <label for="birthdateYearfield">Year</label>
                     <input type="text" id="birthdateYearfield" name="birthdateYear" value="" class="year number numeric-range date-component" on-keydown="movetoconfirmfield" size="5" maxlength="4" min="1895" max="2015">
                     <span id="fr5519" class="field-error" style="display: none"></span>
                 </p>
@@ -218,10 +218,10 @@
      },
      handleResponse3:function(request)
      {        
-        var locuuid = request.detail.response.results[0].uuid;    
-        console.log(locuuid);
+        var locuuid = request.detail.response.results[0].uuid;            
         console.log(personuuid);  
-        console.log(patientidentifieruuid);  
+        console.log(patientidentifieruuid); 
+        console.log(locuuid);         
         this.$.ajax4.body = '{"person": "'+personuuid+'", "identifiers": [{"identifier":"1234-4", "identifierType":"'+patientidentifieruuid+'", "location":"'+locuuid+'", "preferred":true}]}';    
         this.$.ajax4.generateRequest();
      },
@@ -262,9 +262,16 @@
         document.getElementById('confirmation').setAttribute("class", "focused");        
         document.getElementById('birthdateLabel').setAttribute("class", "question-legend done");
         document.getElementById('confirmation_label').setAttribute("class", "question-legend focused");
-        this.$.gender.textContent=this.$.genderfield.value;
-        this.$.patientname.textContent=this.$.fr7057field.value+this.$.fr905field.value;
-        this.$.birthdate.textContent=this.$.birthdateYearfield.value;
+        this.$.patientname.textContent=this.$.fr7057field.value+" "+this.$.fr2890field.value+" "+this.$.fr905field.value;
+        if (this.$.genderfield.value == 'F')
+        {
+            this.$.gender.textContent= 'Female';
+        }
+        if (this.$.genderfield.value == 'M')
+        {
+            this.$.gender.textContent= 'Male';
+        }      
+        this.$.birthdate.textContent=this.$.birthdateDayfield.value+"-"+this.$.birthdateMonthfield.value+"-"+this.$.birthdateYearfield.value;
         }
      }
   });
