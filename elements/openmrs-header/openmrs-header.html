@@ -1,25 +1,70 @@
-<link rel="stylesheet" type="text/css" href="/css/main.css">
-
 <link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="openmrs-logo.html">
 <link rel="import" href="openmrs-user.html">
 <link rel="import" href="openmrs-location.html">
 <link rel="import" href="openmrs-logout.html">
+<link rel="stylesheet" type="text/css" href="/css/main.css">
 
 <dom-module id="openmrs-header">
     <template>  
+        <iron-ajax
+        auto          
+        url="http://demo.openmrs.org/openmrs/ws/rest/v1/location/aff27d58-a15c-49a6-9beb-d30dcfc0c66e"
+        on-response="handleResponse">
+        </iron-ajax>
         <header>       
             <openmrs-logo></openmrs-logo>
             <ul class="user-options">
                 <li class="identifier"><openmrs-user></openmrs-user></li>
-                <li class="change-location"><openmrs-location></openmrs-location></li>
-                <li><openmrs-logout></openmrs-logout></li>
+                <li class="change-location" on-click="showlocations"><openmrs-location></openmrs-location></li>
+                <li class="logout" ><openmrs-logout></openmrs-logout></li>
             </ul>
+            <div id="session-location" style="display: none;">        
+                <ul class="select">          
+                    <li class="" id="location1" locationname="" on-click="setlocation"></li>            
+                    <li class="" id="location2" locationname="" on-click="setlocation"></li>
+                    <li class="" id="location3" locationname="" on-click="setlocation"></li>            
+                    <li class="" id="location4" locationname="" on-click="setlocation"></li>
+                    <li class="" id="location5" locationname="" on-click="setlocation"></li>
+                    <li class="" id="location6" locationname="" on-click="setlocation"></li>           
+                </ul>
+            </div> 
         </header>        
     </template>
 </dom-module>
+
 <script>
     Polymer({
-        is: "openmrs-header",       
+        is: "openmrs-header",         
+        showlocations:function()
+        {               
+        document.getElementById('session-location').style.display = 'block';          
+        document.getElementById('icon').setAttribute("class", "icon-caret-up link");
+        document.getElementById('loc').setAttribute("class", "focus"); 
+        },
+        handleResponse: function (request) {                             
+            var objarray = new Array();
+            objarray =  request.detail.response.childLocations;                                  
+            this.$.location1.textContent=objarray[0].display;
+            document.getElementById('location1').setAttribute("locationname", objarray[0].display);
+            this.$.location2.textContent=objarray[1].display;
+            document.getElementById('location2').setAttribute("locationname", objarray[1].display);
+            this.$.location3.textContent=objarray[2].display; 
+            document.getElementById('location3').setAttribute("locationname", objarray[2].display);
+            this.$.location4.textContent=objarray[3].display;
+            document.getElementById('location4').setAttribute("locationname", objarray[3].display);
+            this.$.location5.textContent=objarray[4].display;
+            document.getElementById('location5').setAttribute("locationname", objarray[4].display);
+            this.$.location6.textContent=objarray[5].display;                 
+            document.getElementById('location6').setAttribute("locationname", objarray[5].display);
+        },             
+        setlocation:function(event)
+        {                             
+            document.getElementById('currentlocation').innerHTML =event.target.getAttribute('locationname');
+            document.getElementById('session-location').style.display = 'none';
+            document.getElementById('icon').setAttribute("class", "icon-caret-down link"); 
+            document.getElementById('loc').setAttribute("class", "");            
+        }            
     });
 </script>   
