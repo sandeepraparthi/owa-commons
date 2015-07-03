@@ -1,16 +1,17 @@
 <html>
 <link rel="import" href="/elements/openmrs-header/openmrs-header.html">
 <link rel="import" href="/elements/bread-crumbs/breadcrumbs.html">
-<link rel="import" href="/elements/patient-search-form/patient-search-form.html"> 
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+<link rel="import" href="/elements/active-visits-button/active-visits-results.html">
 <head>
 	<title>OpenMRS Electronic Medical Record</title>
 </head>
 <body>
      <openmrs-header></openmrs-header>
-     <bread-crumb breadcrumbname="Capture Vitals"></bread-crumb>
+     <bread-crumb breadcrumbname="Active Visits"></bread-crumb>
      <div id="body-wrapper">
         <div id="content" class="container">            
-            <patient-search patientsearchreason="Capture Vitals for Patient"> </patient-search>            
+            <active-visits-results></active-visits-results>
         </div>
     </div>
 </body>
