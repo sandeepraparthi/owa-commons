@@ -1,30 +1,36 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="stylesheet" type="text/css" href="/css/dataTables_jui.css">
+<link rel="stylesheet" type="text/css" href="/css/main.css">
 
-<dom-module id="patient-searchresults">
+<dom-module id="patientsearch-results">
     <template>               
-        <div id="patient-search-results" >
-        <table id="patient-search-results-table">
-          <thead>
-            <tr>
-              <th>Identifier</th>
-              <th>Name</th>
-              <th>Gender</th>
-              <th>Age</th>
-              <th>Birthdate</th>
-            </tr>
-          </thead>              
-          <tbody>          
-          </tbody>               
-        </table>
-      </div>      
+      <div id="patient-search-results">
+        <div id="patient-search-results-table_wrapper" class="dataTables_wrapper" role="grid">
+          <table id="patient-search-results-table" class="dataTable" aria-describedby="patient-search-results-table_info">
+            <thead>
+              <tr role="row">
+                <th class="ui-state-default" role="columnheader" rowspan="1" colspan="1" style="width: 0px;"><div class="DataTables_sort_wrapper">Identifier<span class="DataTables_sort_icon"></span></div></th>
+                <th class="ui-state-default" role="columnheader" rowspan="1" colspan="1" style="width: 0px;"><div class="DataTables_sort_wrapper">Name<span class="DataTables_sort_icon"></span></div></th>
+                <th class="ui-state-default" role="columnheader" rowspan="1" colspan="1" style="width: 0px;"><div class="DataTables_sort_wrapper">Gender<span class="DataTables_sort_icon"></span></div></th>
+                <th class="ui-state-default" role="columnheader" rowspan="1" colspan="1" style="width: 0px;"><div class="DataTables_sort_wrapper">Age<span class="DataTables_sort_icon"></span></div></th>
+                <th class="ui-state-default" role="columnheader" rowspan="1" colspan="1" style="width: 0px;"><div class="DataTables_sort_wrapper">Birthdate<span class="DataTables_sort_icon"></span></div></th>
+              </tr>
+            </thead>           
+            <tbody role="alert" aria-live="polite" aria-relevant="all">  
+              <tr class="odd">
+               <td valign="top" colspan="5" class="dataTables_empty">
+               <span><img class="search-spinner" src="/images/spinner.gif"></span>
+               </td>                         
+               </tr>
+            </tbody>               
+          </table>
+        </div>      
       </div>
     </template>
 </dom-module>
 
 <script>
     Polymer({
-        is: "patient-searchresults",       
+        is: "patientsearch-results",       
     });
 </script>
 

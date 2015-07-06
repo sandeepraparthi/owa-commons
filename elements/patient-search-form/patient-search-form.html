@@ -4,9 +4,8 @@
 <link rel="import" href="/elements/patient-search-results/patient-search-results.html">
 <link rel="stylesheet" type="text/css" href="/css/main.css">
 <link rel="stylesheet" type="text/css" href="/css/patientSearchWidget.css">
-<link rel="stylesheet" type="text/css" href="/css/dataTables_jui.css">
 
-<dom-module id="patient-search">
+<dom-module id="patientsearch-form">
    <template>
     <iron-ajax 
     id="ajax"    
@@ -20,13 +19,13 @@
         <input type="text" id="patientsearch" placeholder="Search by ID or Name" autocomplete="off" on-keyup="checkCharacters" >
         <i id="patient-search-clear-button" class="small icon-remove-sign" on-click="clearSearch"></i>        
       </form>
-      <patient-searchresults></patient-searchresults>
+      <patientsearch-results></patientsearch-results>
   </template>
 </dom-module>
 
 <script>
   Polymer ({
-     is: "patient-search",    
+     is: "patientsearch-form",    
      clearSearch:function()
      {              
        document.getElementById('patientsearch').focus();
@@ -34,8 +33,9 @@
      },
      checkCharacters: function () { 
       var searchcharacters = this.$.patientsearch.value;
-      if(searchcharacters.length >2)
+      if(searchcharacters.length>2)
       {
+      document.getElementById('patient-search-results').style.display = 'block';      
       this.$.ajax.params = {"q":searchcharacters,"v":"default"};     
       this.$.ajax.generateRequest();
       }
@@ -45,21 +45,15 @@
       this.$.ajax.params = {"q":this.$.patientsearch.value,"v":"default"};     
       this.$.ajax.generateRequest();      
      },
-     handleResponse:function(request){
-       var div = document.getElementById('patient-search-results');       
-        div.style.display = 'block';          
+     handleResponse:function(request){                 
         var objarray = new Array();        
-        objarray = request.detail.response.results;        
-        var table = document.getElementById('patient-search-results-table'); 
-        var rowCount = table.rows.length;
-        while(--rowCount)
-        {
-          table.deleteRow(rowCount);
-        }
+        objarray = request.detail.response.results;                
+        var tableref = document.getElementById('patient-search-results-table').getElementsByTagName('tbody')[0]; 
+        tableref.innerHTML = "";
         if(objarray.length == 0)
         {
-            var rowCount = table.rows.length;               
-            var row = table.insertRow(rowCount);
+            var rowCount = tableref.rows.length;               
+            var row = tableref.insertRow(rowCount);
             var r=row.insertCell(0);
             row.cells[0].colSpan = "5";               
             r.setAttribute("class", "dataTables_empty");         
@@ -69,8 +63,16 @@
         {                      
         for(j=0;j<objarray.length;j++)
           {           
-            var rowCount = table.rows.length;               
-            var row = table.insertRow(rowCount);            
+            var rowCount = tableref.rows.length;               
+            var row = tableref.insertRow(rowCount);  
+            if(rowCount/2 == 0)
+            {
+            row.className = "odd" ;
+            }    
+            else
+            {
+              row.className = "even";
+            }     
             row.insertCell(0).innerHTML = objarray[j].display.slice(0,8);                               
             row.insertCell(1).innerHTML = objarray[j].person.display;
             row.insertCell(2).innerHTML = objarray[j].person.gender;

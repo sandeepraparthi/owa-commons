@@ -1,7 +1,6 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
 <link rel="stylesheet" type="text/css" href="/css/main.css">
-<link rel="stylesheet" type="text/css" href="/css/dataTables_jui.css">
 
 <dom-module id="active-visits-results">
    <template>
@@ -19,7 +18,12 @@
 
     <table id="active-visits" width="100%" border="1" cellspacing="0" cellpadding="2" class="dataTable" aria-describedby="active-visits_info" style="width: 100%;">
     <thead>
-    <tr role="row"><th class="ui-state-default" role="columnheader" rowspan="1" colspan="1" style="width: 179px;"><div class="DataTables_sort_wrapper">Patient ID<span class="DataTables_sort_icon"></span></div></th><th class="ui-state-default" role="columnheader" rowspan="1" colspan="1" style="width: 307px;"><div class="DataTables_sort_wrapper">Name<span class="DataTables_sort_icon"></span></div></th><th class="ui-state-default" role="columnheader" rowspan="1" colspan="1" style="width: 74px;"><div class="DataTables_sort_wrapper">Check-In<span class="DataTables_sort_icon"></span></div></th><th class="ui-state-default" role="columnheader" rowspan="1" colspan="1" style="width: 331px;"><div class="DataTables_sort_wrapper">Last Seen<span class="DataTables_sort_icon"></span></div></th></tr>
+    <tr role="row">
+    <th class="ui-state-default" role="columnheader" rowspan="1" colspan="1" style="width: 179px;"><div class="DataTables_sort_wrapper">Patient ID<span class="DataTables_sort_icon"></span></div></th>
+    <th class="ui-state-default" role="columnheader" rowspan="1" colspan="1" style="width: 307px;"><div class="DataTables_sort_wrapper">Name<span class="DataTables_sort_icon"></span></div></th>
+    <th class="ui-state-default" role="columnheader" rowspan="1" colspan="1" style="width: 74px;"><div class="DataTables_sort_wrapper">Check-In<span class="DataTables_sort_icon"></span></div></th>
+    <th class="ui-state-default" role="columnheader" rowspan="1" colspan="1" style="width: 331px;"><div class="DataTables_sort_wrapper">Last Seen<span class="DataTables_sort_icon"></span></div></th>
+    </tr>
     </thead> 
 
   </template>
@@ -28,19 +32,19 @@
 <script>
   Polymer ({
      is: "active-visits-results",         
-     handleResponse:function(request){
-      console.log(request.detail.response.results);
+     handleResponse:function(request){      
       var objarray = new Array();        
-        objarray = request.detail.response.results;        
-        var table = document.getElementById('active-visits');                    
+        objarray = request.detail.response.results;  
+        console.log(objarray);      
+        var table = document.getElementById('active-visits');      
         for(j=0;j<objarray.length;j++)
           {           
             var rowCount = table.rows.length;               
             var row = table.insertRow(rowCount);            
-            row.insertCell(0).innerHTML = objarray[j].patient.display.slice(0,6);                               
-            row.insertCell(1).innerHTML = objarray[j].patient.display.slice(9,25); 
-            row.insertCell(2).innerHTML = "";            
-            row.insertCell(3).innerHTML = objarray[j].display;                        
+            row.insertCell(0).innerHTML = 'OpenMRS ID:'+objarray[j].patient.display.slice(0,6);           
+            row.insertCell(1).innerHTML = '<a>'+objarray[j].patient.display.slice(9,25)+'</a>'; 
+            row.insertCell(2).innerHTML = "";
+            row.insertCell(3).innerHTML = objarray[j].display;                                                 
           }                        
     }
   });
