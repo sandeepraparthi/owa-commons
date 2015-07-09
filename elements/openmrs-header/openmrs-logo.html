@@ -4,7 +4,7 @@
 <dom-module id="openmrs-logo">
     <template>        
         <div class="logo">
-            <a href="#">
+            <a href$="{{url}}">
                 <img alt="" src="/images/openmrs-with-title-small.png"/>
             </a>
         </div>
@@ -12,6 +12,10 @@
 </dom-module>
 <script>
     Polymer({
-        is: "openmrs-logo",       
+        is: "openmrs-logo",   
+        properties:
+        {
+            url:String
+        }    
     });
 </script>

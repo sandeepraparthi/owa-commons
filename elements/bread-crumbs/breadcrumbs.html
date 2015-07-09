@@ -5,13 +5,13 @@
    <template>      
       <ul id="breadcrumbs">
           <li>        
-            <a href="../../index.html">
+            <a href$="{{url}}">
             <i class="icon-home small"></i>  
             </a>  
           </li>
           <li>      
             <i class="icon-chevron-right link"></i> 
-            <span>{{breadcrumbname}}</span>    
+            <span>{{label}}</span>    
           </li>
       </ul>    
    </template>
@@ -21,7 +21,8 @@
     Polymer({
         is: "bread-crumb",
         properties: {
-          breadcrumbname: String
+          label: String,
+          url:String
           }       
     });
 </script>
