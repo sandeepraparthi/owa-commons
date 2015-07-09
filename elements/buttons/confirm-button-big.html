@@ -4,7 +4,7 @@
    <template>                    
         <button class="confirm big right">
                 <i class="icon-arrow-right"></i>
-               Yes,Record Vitals
+              <span>{{button_name}}</span>
         </button>    
          
    </template>
@@ -13,7 +13,7 @@
   Polymer ({
      is: "confirm-button-big",  
      properties: {
-          buttontask: String          
+          button_name: String          
           }           
   });
 </script>

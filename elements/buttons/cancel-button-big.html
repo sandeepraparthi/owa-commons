@@ -5,7 +5,7 @@
    <template>                    
         <button class="cancel big">
             <i class="icon-arrow-left"></i>
-                No,Find Another Patient
+               <span>{{button_name}}</span>
         </button>          
         
    </template>
@@ -14,7 +14,7 @@
   Polymer ({
      is: "cancel-button-big",  
      properties: {
-          buttontask: String          
+          button_name: String          
           }           
   });
 </script>

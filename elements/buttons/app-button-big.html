@@ -2,17 +2,19 @@
 <link rel="stylesheet" type="text/css" href="/css/main.css">
 <dom-module id="app-button-big" >
    <template>                    
-        <a  class="button app big">                
-                   <i class="icon-search"></i>                
-                <span>{{buttontask}}</span>
+        <a href$="{{url}}" class="button app big" >                
+                   <i class$="{{icon}}"></i>                
+                <span>{{button_name}}</span>
         </a>        
    </template>
 </dom-module>
 <script>
   Polymer ({
-     is: "app-button-big",  
+     is: "app-button-big",      
      properties: {
-          buttontask: String          
+          button_name: String,
+          icon:String,
+          url:String                      
           }           
   });
 </script>

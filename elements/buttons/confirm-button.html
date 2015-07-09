@@ -3,7 +3,7 @@
 <dom-module id="confirm-button" >
    <template>                    
         <button class="confirm right">
-        Confirm
+        <span>{{button_name}}</span>
         </button>   
          
    </template>
@@ -12,7 +12,7 @@
   Polymer ({
      is: "confirm-button",  
      properties: {
-          buttontask: String          
+          button_name: String          
           }           
   });
 </script>

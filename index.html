@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html>
    <head>      
-      <link rel="import" href="elements/openmrs-header/openmrs-header.html">      
-      <link rel="import" href="elements/find-patient-record-button/find-patient-record-button.html">
-      <link rel="import" href="elements/capture-vitals-button/capture-vitals-button.html">
-      <link rel="import" href="elements/register-a-patient-button/register-a-patient-button.html">   
-      <link rel="import" href="elements/active-visits-button/active-visits-button.html">           
+      <link rel="import" href="elements/openmrs-header/openmrs-header.html">               
+      <link rel="import" href="elements/buttons/app-button-big.html">                               
       <link rel="stylesheet" type="text/css" href="/css/main.css">
    </head>
    <body>
@@ -13,11 +10,11 @@
         <div id="body-wrapper">
             <div id="content" class="container"> 
                 <div id="home-container">
-                    <div id="apps">
-                        <find-patient-record-button></find-patient-record-button>                        
-                        <register-a-patient-button></register-a-patient-button>
-                        <capture-vitals-button></capture-vitals-button>
-                        <active-visits-button></active-visits-button>
+                    <div id="apps">    
+                        <app-button-big button_name="Find Patient Record" icon="icon-search" url="demo/find-patient.html"></app-button-big>                    
+                        <app-button-big button_name="Register a patient" icon="icon-user" url="demo/register-patient.html"></app-button-big>                      
+                        <app-button-big button_name="Active Visits" icon="icon-calendar" url="demo/fetch-active-visits.html"></app-button-big>
+                        <app-button-big button_name="Capture Vitals" icon="icon-vitals" url="demo/vitals-for-patient.html"></app-button-big>                        
                     </div>
                 </div>              
             </div>

@@ -25,6 +25,8 @@
     <th class="ui-state-default" role="columnheader" rowspan="1" colspan="1" style="width: 331px;"><div class="DataTables_sort_wrapper">Last Seen<span class="DataTables_sort_icon"></span></div></th>
     </tr>
     </thead> 
+    <tbody>      
+    </tbody>
 
   </template>
 </dom-module>
@@ -36,11 +38,19 @@
       var objarray = new Array();        
         objarray = request.detail.response.results;  
         console.log(objarray);      
-        var table = document.getElementById('active-visits');      
+        var tableref = document.getElementById('active-visits').getElementsByTagName('tbody')[0];      
         for(j=0;j<objarray.length;j++)
           {           
-            var rowCount = table.rows.length;               
-            var row = table.insertRow(rowCount);            
+            var rowCount = tableref.rows.length;               
+            var row = tableref.insertRow(rowCount);      
+              if(rowCount/2 == 0)
+            {
+            row.className = "odd" ;
+            }    
+            else
+            {
+              row.className = "even";
+            }        
             row.insertCell(0).innerHTML = 'OpenMRS ID:'+objarray[j].patient.display.slice(0,6);           
             row.insertCell(1).innerHTML = '<a>'+objarray[j].patient.display.slice(9,25)+'</a>'; 
             row.insertCell(2).innerHTML = "";
