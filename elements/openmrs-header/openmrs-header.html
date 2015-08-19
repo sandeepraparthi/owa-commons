@@ -1,17 +1,17 @@
-<script src="bower_components/webcomponentsjs/webcomponents.js"></script> 
-<link rel="stylesheet" type="text/css" href="css/main.css">
+<script src="../../bower_components/webcomponentsjs/webcomponents.js"></script> 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="openmrs-logo.html">
 <link rel="import" href="openmrs-user.html">
 <link rel="import" href="openmrs-location.html">
 <link rel="import" href="openmrs-logout.html">
+<link rel="stylesheet" type="text/css" href="../../css/main.css">
 
 <dom-module id="openmrs-header">
     <template>  
         <iron-ajax
         auto          
-        url="http://demo.openmrs.org/openmrs/ws/rest/v1/location/aff27d58-a15c-49a6-9beb-d30dcfc0c66e"
+        url="http://localhost:8080/openmrs/ws/rest/v1/location"
         on-response="handleResponse">
         </iron-ajax>
         <header>       

@@ -1,9 +1,9 @@
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="stylesheet" type="text/css" href="/css/main.css">
-
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="stylesheet" type="text/css" href="../../css/main.css">
+<link rel="stylesheet" type="text/css" href="../../css/patientSearchWidget.css">
 <dom-module id="patientsearch-results">
     <template>               
-      <div id="patient-search-results">
+      <div id="patient-search-results" style="display:none">
         <div id="patient-search-results-table_wrapper" class="dataTables_wrapper" role="grid">
           <table id="patient-search-results-table" class="dataTable" aria-describedby="patient-search-results-table_info">
             <thead>
@@ -18,7 +18,7 @@
             <tbody role="alert" aria-live="polite" aria-relevant="all">  
               <tr class="odd">
                <td valign="top" colspan="5" class="dataTables_empty">
-               <span><img class="search-spinner" src="/images/spinner.gif"></span>
+               <span><img class="search-spinner" src="../../images/spinner.gif"></span>
                </td>                         
                </tr>
             </tbody>               

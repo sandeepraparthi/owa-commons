@@ -1,13 +1,13 @@
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
-<link rel="stylesheet" type="text/css" href="/css/main.css">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="stylesheet" type="text/css" href="../../css/main.css">
 
 <dom-module id="active-visits-results">
    <template>
     <iron-ajax 
     auto
     id="ajax"    
-    url="http://demo.openmrs.org/openmrs/ws/rest/v1/visit?includeInactive=false&v=default"  
+    url="http://localhost:8080/openmrs/ws/rest/v1/visit?includeInactive=false&v=default"  
     method="GET"  
     handle-as="json"
     on-response="handleResponse">

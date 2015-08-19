@@ -1,8 +1,8 @@
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/iron-form/iron-form.html">
-<link rel="import" href="/elements/buttons/cancel-button.html">
-<link rel="import" href="/elements/buttons/confirm-button.html">
-<link rel="stylesheet" type="text/css" href="/css/main.css">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../elements/buttons/cancel-button.html">
+<link rel="import" href="../../elements/buttons/confirm-button.html">
+<link rel="stylesheet" type="text/css" href="../../css/main.css">
 
 <dom-module id="patient-registration-form">
     <template>  
@@ -287,7 +287,7 @@
      },
      movetobirthdatefield:function()
      {
-        if(event.keyCode == 9)
+        if(event.keyCode == 9 || event.keyCode ==13)
         {  
      	document.getElementById('demographics-gender').setAttribute("class", "");
         document.getElementById('demographics-birthdate').setAttribute("class", "focused");        
@@ -297,7 +297,7 @@
      },
       movetoIdentifierField:function()
      {
-        if(event.keyCode == 9)
+        if(event.keyCode == 9 || event.keyCode ==13)
         {  
         document.getElementById('demographics-birthdate').setAttribute("class", "");
         document.getElementById('demographics-identifier').setAttribute("class", "focused");        
@@ -307,7 +307,7 @@
      },
      movetoconfirmfield:function()
      {
-        if(event.keyCode == 9)
+        if(event.keyCode == 9 || event.keyCode ==13)
         {
      	document.getElementById('demographics-identifier').setAttribute("class", "");
         document.getElementById('confirmation').setAttribute("class", "focused");        

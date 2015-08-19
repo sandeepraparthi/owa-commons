@@ -1,14 +1,16 @@
 <html>
-<link rel="import" href="/elements/openmrs-header/openmrs-header.html">
-<link rel="import" href="/elements/bread-crumbs/breadcrumbs.html">
-<link rel="stylesheet" type="text/css" href="/css/main.css">
-<link rel="import" href="/elements/patient-registration-form/patient-registration-form.html">
+<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>  
+<link rel="import" href="../bower_components/polymer/polymer.html">  
+<link rel="import" href="../elements/openmrs-header/openmrs-header.html">
+<link rel="import" href="../elements/bread-crumbs/breadcrumbs.html">
+<link rel="import" href="../elements/patient-registration-form/patient-registration-form.html">
+<link rel="stylesheet" type="text/css" href="../css/main.css">
 <head>
 	<title>OpenMRS Electronic Medical Record</title>
 </head>
 <body>
      <openmrs-header></openmrs-header>
-     <bread-crumb label="Register a patient" url="../../index.html"></bread-crumb>
+     <bread-crumb label="Register a patient" url="../index.html"></bread-crumb>
      <div id="body-wrapper">
         <div id="content" class="container">            
             <patient-registration-form>
