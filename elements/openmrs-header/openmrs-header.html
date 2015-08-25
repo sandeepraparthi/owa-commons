@@ -27,7 +27,7 @@
             <div id="session-location">        
                 <ul id="location" class="select">
                     <template is="dom-repeat" items="{{locations}}">
-                        <li id="{{ item.display }}" name="{{ item.displayName }}" on-click="setlocation">{{ item.display }}</li>
+                        <li id="{{ item.displayName }}" on-click="setlocation">{{ item.display }}</li>
                     </template>
                 </ul>
             </div>
@@ -51,7 +51,7 @@ Polymer({
     showlocations: function ()
     {
         document.getElementById('session-location').style.display = 'block';
-        document.getElementById(document.getElementById('currentlocation').innerHTML).setAttribute("class", "selected");
+        document.getElementById(document.getElementById('currentlocation').innerHTML.replace(/\s+/g, '')).setAttribute("class", "selected");
         document.getElementById('icon').setAttribute("class", "icon-caret-up link");
         document.getElementById('loc').setAttribute("class", "focus");
     },
