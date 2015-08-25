@@ -4,14 +4,22 @@
     <template>        
         <a id="loc" href="#" class="">
             <i class="icon-map-marker small"></i>
-            <span id="currentlocation"></span>                
+            <span id="currentlocation">{{currlocation}}</span>                
             <i id="icon" class="icon-caret-down link" ></i>                               
         </a>        
     </template>    
 </dom-module>
 <script>
     Polymer({
-        is: "openmrs-location",  
+        is: "openmrs-location",
+        currlocation: localStorage.getItem("currentlocation"),
+        ready: function() {
+            if(sessionStorage)
+            {
+                currlocation = sessionStorage.getItem("currentlocation");
+                this.$.currentlocation.innerHTML = currlocation;
+            }             
+        }
     });
 </script> 
 

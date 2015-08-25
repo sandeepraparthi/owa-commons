@@ -1,5 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<script src="../../js/vendor/jquery-2.1.4.min.js"></script>  
 <link rel="import" href="openmrs-logo.html">
 <link rel="import" href="openmrs-user.html">
 <link rel="import" href="openmrs-location.html">
@@ -7,11 +8,14 @@
 <link rel="stylesheet" type="text/css" href="../../css/main.css">
 
 <dom-module id="openmrs-header">
-    <template>  
+    <template>
         <iron-ajax
-        auto          
-        url="http://localhost:8080/openmrs/ws/rest/v1/location"
-        on-response="handleResponse">
+            auto
+            url="http://localhost:8080/openmrs/ws/rest/v1/location"
+            on-error="handleError"
+            on-response="handleResponse"
+            headers='{"accept": "application/json"}'
+            method="GET">
         </iron-ajax>
         <header>       
             <openmrs-logo url="../../index.html"></openmrs-logo>
@@ -20,51 +24,51 @@
                 <li class="change-location" on-click="showlocations"><openmrs-location></openmrs-location></li>
                 <li class="logout" ><openmrs-logout></openmrs-logout></li>
             </ul>
-            <div id="session-location" style="display: none;">        
-                <ul class="select">          
-                    <li class="" id="location1" locationname="" on-click="setlocation"></li>            
-                    <li class="" id="location2" locationname="" on-click="setlocation"></li>
-                    <li class="" id="location3" locationname="" on-click="setlocation"></li>            
-                    <li class="" id="location4" locationname="" on-click="setlocation"></li>
-                    <li class="" id="location5" locationname="" on-click="setlocation"></li>
-                    <li class="" id="location6" locationname="" on-click="setlocation"></li>           
+            <div id="session-location">        
+                <ul id="location" class="select">
+                    <template is="dom-repeat" items="{{locations}}">
+                        <li id="{{ item.display }}" name="{{ item.displayName }}" on-click="setlocation">{{ item.display }}</li>
+                    </template>
                 </ul>
-            </div> 
-        </header>        
+            </div>
+        </header>
     </template>
 </dom-module>
-
 <script>
-    Polymer({
-        is: "openmrs-header",         
-        showlocations:function()
-        {               
-        document.getElementById('session-location').style.display = 'block';          
+Polymer({
+    is: "openmrs-header",
+    locations: [],
+    handleResponse: function (request) {
+        this.locations = request.detail.response.results;
+        for(i=0; i<this.locations.length; i++)
+        {
+            this.locations[i]["displayName"] = this.locations[i].display.replace(/\s+/g, '');
+        }
+    },
+    handleError: function (e) {
+        console.log('Error while getting locations ' + e.detail);
+    },
+    showlocations: function ()
+    {
+        document.getElementById('session-location').style.display = 'block';
+        document.getElementById(document.getElementById('currentlocation').innerHTML).setAttribute("class", "selected");
         document.getElementById('icon').setAttribute("class", "icon-caret-up link");
-        document.getElementById('loc').setAttribute("class", "focus"); 
-        },
-        handleResponse: function (request) {                             
-            var objarray = new Array();
-            objarray =  request.detail.response.childLocations;                                  
-            this.$.location1.textContent=objarray[0].display;
-            document.getElementById('location1').setAttribute("locationname", objarray[0].display);
-            this.$.location2.textContent=objarray[1].display;
-            document.getElementById('location2').setAttribute("locationname", objarray[1].display);
-            this.$.location3.textContent=objarray[2].display; 
-            document.getElementById('location3').setAttribute("locationname", objarray[2].display);
-            this.$.location4.textContent=objarray[3].display;
-            document.getElementById('location4').setAttribute("locationname", objarray[3].display);
-            this.$.location5.textContent=objarray[4].display;
-            document.getElementById('location5').setAttribute("locationname", objarray[4].display);
-            this.$.location6.textContent=objarray[5].display;                 
-            document.getElementById('location6').setAttribute("locationname", objarray[5].display);
-        },             
-        setlocation:function(event)
-        {                             
-            document.getElementById('currentlocation').innerHTML =event.target.getAttribute('locationname');
-            document.getElementById('session-location').style.display = 'none';
-            document.getElementById('icon').setAttribute("class", "icon-caret-down link"); 
-            document.getElementById('loc').setAttribute("class", "");            
-        }            
-    });
-</script>   
+        document.getElementById('loc').setAttribute("class", "focus");
+    },
+    setlocation: function (event)
+    {
+        //adding current location in session storage so that we can access same location through out session.
+        if(sessionStorage)
+            sessionStorage.setItem("currentlocation", document.getElementById(event.target.id).innerHTML);
+        
+        document.getElementById('currentlocation').innerHTML = document.getElementById(event.target.id).innerHTML;
+        //adding class selected for selected location.
+        $('.select li').removeClass('selected');
+        document.getElementById(event.target.id).setAttribute("class", "selected");
+        document.getElementById('session-location').style.display = 'none';
+        document.getElementById('icon').setAttribute("class", "icon-caret-down link");
+        document.getElementById('loc').setAttribute("class", "");
+    }
+});
+</script>
+
