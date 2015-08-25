@@ -10,8 +10,8 @@
 <dom-module id="openmrs-header">
     <template>
         <iron-ajax
+            id="locationCall"
             auto
-            url="http://localhost:8080/openmrs/ws/rest/v1/location"
             on-error="handleError"
             on-response="handleResponse"
             headers='{"accept": "application/json"}'
@@ -38,6 +38,12 @@
 Polymer({
     is: "openmrs-header",
     locations: [],
+    ready: function() {
+        if(sessionStorage.getItem("serverUrl"))
+        {
+            this.$.locationCall.url = sessionStorage.getItem("serverUrl") + "/ws/rest/v1/location";
+        }
+    },
     handleResponse: function (request) {
         this.locations = request.detail.response.results;
         for(i=0; i<this.locations.length; i++)
@@ -50,10 +56,17 @@ Polymer({
     },
     showlocations: function ()
     {
-        document.getElementById('session-location').style.display = 'block';
-        document.getElementById(document.getElementById('currentlocation').innerHTML.replace(/\s+/g, '')).setAttribute("class", "selected");
-        document.getElementById('icon').setAttribute("class", "icon-caret-up link");
-        document.getElementById('loc').setAttribute("class", "focus");
+        if(document.getElementById('session-location').style.display == 'block')
+        {
+            document.getElementById('session-location').style.display = 'none';
+        }
+        else
+        {
+            document.getElementById('session-location').style.display = 'block';
+            document.getElementById(document.getElementById('currentlocation').innerHTML.replace(/\s+/g, '')).setAttribute("class", "selected");
+            document.getElementById('icon').setAttribute("class", "icon-caret-up link");
+            document.getElementById('loc').setAttribute("class", "focus");
+        }
     },
     setlocation: function (event)
     {

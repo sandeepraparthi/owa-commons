@@ -1,25 +1,30 @@
 <!DOCTYPE html>
 <html>
-   <head>     
-   <title>Open Web App</title> 
-      <script src="bower_components/webcomponentsjs/webcomponents.js"></script>                     
-      <link rel="import" href="elements/buttons/app-button-big.html"> 
-      <link rel="import" href="elements/openmrs-header/openmrs-header.html">                               
-      <link rel="stylesheet" type="text/css" href="css/main.css">      
-   </head>
-   <body>          
-   <openmrs-header></openmrs-header>
-         <div id="body-wrapper">
-            <div id="content" class="container"> 
+    <head>
+        <title>Open Web App</title>
+        <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
+        <script src="js/vendor/jquery-2.1.4.min.js"></script>
+        <script src="js/main.js"></script>
+        <link rel="import" href="elements/buttons/app-button-big.html">
+        <link rel="import" href="elements/openmrs-header/openmrs-header.html">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <script type="text/javascript">
+            loadManifest();
+        </script>
+    </head>
+    <body>
+        <openmrs-header></openmrs-header>
+        <div id="body-wrapper">
+            <div id="content" class="container">
                 <div id="home-container">
-                    <div id="apps">    
-                        <app-button-big button_name="Find Patient Record" icon="icon-search" url="demo/find-patient.html"></app-button-big>      
-                        <app-button-big button_name="Active Visits" icon="icon-calendar" url="demo/fetch-active-visits.html"></app-button-big>              
-                        <app-button-big button_name="Register a patient" icon="icon-user" url="demo/register-patient.html"></app-button-big>                      
-                        <app-button-big button_name="Capture Vitals" icon="icon-vitals" url="demo/vitals-for-patient.html"></app-button-big>                        
+                    <div id="apps">
+                        <app-button-big button_name="Find Patient Record" icon="icon-search" url="demo/find-patient.html"></app-button-big>
+                        <app-button-big button_name="Active Visits" icon="icon-calendar" url="demo/fetch-active-visits.html"></app-button-big>
+                        <app-button-big button_name="Register a patient" icon="icon-user" url="demo/register-patient.html"></app-button-big>
+                        <app-button-big button_name="Capture Vitals" icon="icon-vitals" url="demo/vitals-for-patient.html"></app-button-big>
                     </div>
                 </div>
             </div>
-        </div>                 
+        </div>
     </body>
 </html>
