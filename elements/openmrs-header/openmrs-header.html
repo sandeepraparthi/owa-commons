@@ -40,7 +40,7 @@ Polymer({
     is: "openmrs-header",
     locations: [],
     ready: function() {
-        if(!authentication)
+        if(!sessionStorage.getItem("authentication"))
         {
             window.location="../../../login.htm";
         }

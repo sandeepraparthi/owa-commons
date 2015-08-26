@@ -15,7 +15,7 @@
         is: "openmrs-logout", 
         handleResponse:function(request)
         {
-             if(authentication)
+             if(sessionStorage.getItem("authentication"))
              {
              	this.$.el.textContent= "Logout";
              }

@@ -10,7 +10,7 @@ function loadManifest() {
         });
     }
 }
-function CheckAuthentication() {
+function getAuthentication() {
 	if (sessionStorage && !sessionStorage.getItem("serverUrl"))
     { 
         $.ajax({url: "http://localhost:8080/openmrs/ws/rest/v1/session",headers: '{"accept": "application/json"}', success: function(result){
