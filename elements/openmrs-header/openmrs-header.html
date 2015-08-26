@@ -42,7 +42,7 @@ Polymer({
     ready: function() {
         if(!sessionStorage.getItem("authentication"))
         {
-            window.location="login.htm";
+            window.location=sessionStorage.getItem("serverUrl") + "login.htm";
         }
         if(sessionStorage.getItem("serverUrl"))
         {
