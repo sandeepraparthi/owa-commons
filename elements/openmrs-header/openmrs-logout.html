@@ -1,14 +1,8 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="stylesheet" type="text/css" href="../../css/main.css">
-<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 
 <dom-module id="openmrs-logout">
-    <template>
-    <iron-ajax
-    auto
-    url="http://localhost:8080/openmrs/ws/rest/v1/session"
-    on-response="handleResponse">
-    </iron-ajax>  
+    <template>    
       <a>
         <span id="el"></span>
         <i class="icon-signout small"></i>
@@ -21,7 +15,7 @@
         is: "openmrs-logout", 
         handleResponse:function(request)
         {
-             if(request.detail.response.authenticated)
+             if(authentication)
              {
              	this.$.el.textContent= "Logout";
              }

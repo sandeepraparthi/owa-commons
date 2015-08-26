@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <script src="../../js/vendor/jquery-2.1.4.min.js"></script>  
+<script src="../../js/main.js"></script>  
 <link rel="import" href="openmrs-logo.html">
 <link rel="import" href="openmrs-user.html">
 <link rel="import" href="openmrs-location.html">
@@ -39,6 +40,10 @@ Polymer({
     is: "openmrs-header",
     locations: [],
     ready: function() {
+        if(!authentication)
+        {
+            window.location="../../../login.htm";
+        }
         if(sessionStorage.getItem("serverUrl"))
         {
             this.$.locationCall.url = sessionStorage.getItem("serverUrl") + "/ws/rest/v1/location";
