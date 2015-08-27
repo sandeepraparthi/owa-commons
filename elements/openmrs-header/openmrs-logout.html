@@ -3,26 +3,37 @@
 
 <dom-module id="openmrs-logout">
     <template>    
-      <a>
-        <span id="el"></span>
-        <i class="icon-signout small"></i>
-      </a>
+        <a on-click="loginorlogout">
+            <span id="el"></span>
+            <i class="icon-signout small"></i>
+        </a>
     </template>    
 </dome-module>
 
 <script>
     Polymer({
-        is: "openmrs-logout", 
-        handleResponse:function(request)
+        is: "openmrs-logout",
+        ready: function ()
         {
-             if(sessionStorage.getItem("authentication"))
-             {
-             	this.$.el.textContent= "Logout";
-             }
-             else
-             {
-             	this.$.el.textContent= "Login";
-             }
-        }      
+            if (sessionStorage.getItem("authentication"))
+            {
+                this.$.el.textContent = "Logout";
+            }
+            else
+            {
+                this.$.el.textContent = "Login";
+            }
+        },
+        loginorlogout: function ()
+        {
+            if (sessionStorage.getItem("authentication"))
+            {
+                // call rest call to logout user
+            }
+            else
+            {
+                //call rest call to login user
+            }
+        }
     });
 </script>

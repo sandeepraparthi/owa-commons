@@ -1,20 +1,24 @@
-function loadManifest() {
+function loadManifestAndgetAuth() {
     if (sessionStorage && !sessionStorage.getItem("serverUrl"))
     {
         jQuery.getJSON('manifest.webapp').done(function (data) {
             sessionStorage.setItem("serverUrl", data.activities.openmrs.href);
+            var sessionUrl = sessionStorage.getItem("serverUrl") + "/ws/rest/v1/session";
+            $.ajax({
+                url: sessionUrl,
+                headers: '{"accept": "application/json"}',
+                type: "GET",
+                cache: false,
+                xhrFields: {
+                    withCredentials: true
+                },
+                success: function (data) {
+                    sessionStorage.setItem("authentication", data.authenticated);
+                }
+            });
         }).fail(function (jqxhr, textStatus, error) {
             var err = textStatus + ", " + error;
             console.log("reading manifest file request Failed: " + err);
         });
     }
-}
-function getAuthentication() {
-	if (sessionStorage && !sessionStorage.getItem("serverUrl"))
-    { 
-        $.ajax({url: "http://localhost:8080/openmrs/ws/rest/v1/session",headers: '{"accept": "application/json"}', success: function(result){
-        sessionStorage.setItem("authentication", result.detail.response.authenticated;     
-    }          
-    });
-});
 }

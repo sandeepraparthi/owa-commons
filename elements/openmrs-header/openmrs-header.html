@@ -1,7 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <script src="../../js/vendor/jquery-2.1.4.min.js"></script>  
-<script src="../../js/main.js"></script>  
 <link rel="import" href="openmrs-logo.html">
 <link rel="import" href="openmrs-user.html">
 <link rel="import" href="openmrs-location.html">
@@ -39,19 +38,20 @@
 Polymer({
     is: "openmrs-header",
     locations: [],
-    ready: function() {
-        if(!sessionStorage.getItem("authentication"))
+    ready: function () {
+        if (sessionStorage.getItem("serverUrl"))
         {
-            window.location=sessionStorage.getItem("serverUrl") + "login.htm";
-        }
-        if(sessionStorage.getItem("serverUrl"))
-        {
-            this.$.locationCall.url = sessionStorage.getItem("serverUrl") + "/ws/rest/v1/location";
+            if (!sessionStorage.getItem("authentication"))
+            {
+                //@todo this code is currently not reachable as code throws api exception. Need to fix that
+            }
+            else
+                this.$.locationCall.url = sessionStorage.getItem("serverUrl") + "/ws/rest/v1/location";
         }
     },
     handleResponse: function (request) {
         this.locations = request.detail.response.results;
-        for(i=0; i<this.locations.length; i++)
+        for (i = 0; i < this.locations.length; i++)
         {
             this.locations[i]["displayName"] = this.locations[i].display.replace(/\s+/g, '');
         }
@@ -78,7 +78,7 @@ Polymer({
         //adding current location in session storage so that we can access same location through out session.
         if(sessionStorage)
             sessionStorage.setItem("currentlocation", document.getElementById(event.target.id).innerHTML);
-        
+
         document.getElementById('currentlocation').innerHTML = document.getElementById(event.target.id).innerHTML;
         //adding class selected for selected location.
         $('.select li').removeClass('selected');
