@@ -11,7 +11,7 @@
             id="ajax1"
             method="POST" 
             url="http://localhost:8080/openmrs/ws/rest/v1/person"             
-            headers='{"Content-Type": "application/json"}'        
+            headers='{"Content-Type": "application/json","accept": "application/json"}'        
             handle-as="json"
             on-response="handleResponse1"> 
         </iron-ajax>
@@ -20,6 +20,7 @@
             url="http://localhost:8080/openmrs/ws/rest/v1/patientidentifiertype"  
             method="GET"  
             handle-as="json"
+            headers='{"accept": "application/json"}'
             on-response="handleResponse2">
         </iron-ajax>
         <iron-ajax 
@@ -27,13 +28,14 @@
             url="http://localhost:8080/openmrs/ws/rest/v1/location"  
             method="GET"  
             handle-as="json"
+            headers='{"accept": "application/json"}'
             on-response="handleResponse3">
         </iron-ajax>
         <iron-ajax 
         id="ajax4"   
         method="POST" 
         url="http://localhost:8080/openmrs/ws/rest/v1/patient"             
-        headers='{"Content-Type": "application/json"}'        
+        headers='{"Content-Type": "application/json","accept": "application/json"}'        
         handle-as="json"
         on-response="handleResponse4"
         on-error="handleError">
@@ -191,12 +193,12 @@
         </section>
         <div id="confirmation">            
             <div id="dataCanvas">
-            	<ul>
+                <ul>
                     <li><span id="name" class="label">Name:</span><strong><span id="patientname">{{name}}</span></strong></li>
                     <li><span  class="label">Gender:</span><strong><span id="gender">{{gender}}</span></strong></li>
                     <li><span id="birthdate" class="label">Birthdate:</span><strong><span id="birthdate">{{day}}</span>
                     <span>{{month}}</span><span>{{year}}</span></strong></li>
-                </ul>   	
+                </ul>       
             </div>
             <div class="after-data-canvas"></div>
             <div id="confirmationQuestion" class="focused">
@@ -241,15 +243,18 @@
      handleResponse1:function(request)
      {        
         this.$.ajax2.generateRequest();        
-        personuuid = request.detail.response.uuid;
+        console.log(request.detail.response);
+        personuuid = request.detail.response.uuid;        
      },
      handleResponse2:function(request)
      {                
         this.$.ajax3.generateRequest();
-        patientidentifieruuid = request.detail.response.results[0].uuid;
+        console.log(request.detail.response);
+        patientidentifieruuid = request.detail.response.results[0].uuid;        
      },
      handleResponse3:function(request)
      {        
+        console.log(request.detail.response);
         var locuuid = request.detail.response.results[0].uuid;     
         var identifier = this.$.fr7098field.value;
         console.log(identifier);       
@@ -268,7 +273,7 @@
      },
      handleError:function(request)
      {
-     	console.log(request.detail.error);
+        console.log(request.detail.error);
         document.getElementById('confirmation').setAttribute("class", "");
         document.getElementById('demographics-identifier').setAttribute("class", "focused");        
         document.getElementById('confirmation_label').setAttribute("class", "question-legend done");
@@ -289,7 +294,7 @@
      {
         if(event.keyCode == 9 || event.keyCode ==13)
         {  
-     	document.getElementById('demographics-gender').setAttribute("class", "");
+        document.getElementById('demographics-gender').setAttribute("class", "");
         document.getElementById('demographics-birthdate').setAttribute("class", "focused");        
         document.getElementById('genderLabel').setAttribute("class", "question-legend done");
         document.getElementById('birthdateLabel').setAttribute("class", "question-legend focused");
@@ -309,7 +314,7 @@
      {
         if(event.keyCode == 9 || event.keyCode ==13)
         {
-     	document.getElementById('demographics-identifier').setAttribute("class", "");
+        document.getElementById('demographics-identifier').setAttribute("class", "");
         document.getElementById('confirmation').setAttribute("class", "focused");        
         document.getElementById('identifierLabel').setAttribute("class", "question-legend done");
         document.getElementById('confirmation_label').setAttribute("class", "question-legend focused");
