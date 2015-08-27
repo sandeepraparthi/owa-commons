@@ -10,6 +10,7 @@
     url="http://localhost:8080/openmrs/ws/rest/v1/visit?includeInactive=false&v=default"  
     method="GET"  
     handle-as="json"
+    headers='{"accept": "application/json"}'
     on-response="handleResponse">
     </iron-ajax>
     
