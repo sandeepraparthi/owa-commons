@@ -9,8 +9,7 @@
 <dom-module id="patientsearch-form">
    <template>
     <iron-ajax 
-    id="ajax"    
-    url="http://localhost:8080/openmrs/ws/rest/v1/patient"  
+    id="ajax"          
     method="GET"  
     handle-as="json"
     headers='{"accept": "application/json"}'
@@ -27,7 +26,18 @@
 
 <script>
   Polymer ({
-     is: "patientsearch-form",    
+     is: "patientsearch-form", 
+     ready: function () {
+        if (sessionStorage.getItem("serverUrl"))
+        {
+            if (!sessionStorage.getItem("authentication"))
+            {
+                //@todo this code is currently not reachable as code throws api exception. Need to fix that
+            }
+            else
+                this.$.ajax.url = sessionStorage.getItem("serverUrl") + "/ws/rest/v1/patient";
+        }
+     },   
      clearSearch:function()
      {              
        document.getElementById('patientsearch').focus();
@@ -54,8 +64,7 @@
         var tableref = document.getElementById('patient-search-results-table').getElementsByTagName('tbody')[0]; 
         tableref.innerHTML = "";
         if(objarray.length == 0)
-        {
-        	console.log('hi');  
+        {        	  
           var rowCount = tableref.rows.length;               
           var row = tableref.insertRow(rowCount);
           var r=row.insertCell(0);
